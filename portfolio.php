@@ -4,7 +4,26 @@ require_once 'includes/functions.php';
 // Require login for portfolio
 requireLogin();
 
-$page_title = t('portfolio') ?: 'Portfolio';
+// Get dynamic site name for title
+$dynamic_site_name = SITE_NAME; // Fallback
+try {
+    if (class_exists('Database')) {
+        $database = new Database();
+        $db = $database->getConnection();
+        $query = "SELECT setting_value FROM settings WHERE setting_key = 'site_name'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $site_name_result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($site_name_result && !empty($site_name_result['setting_value'])) {
+            $dynamic_site_name = $site_name_result['setting_value'];
+        }
+    }
+} catch (Exception $e) {
+    // Hata durumunda varsayılan SITE_NAME kullan
+}
+
+$page_title = $dynamic_site_name . ' Portföy';
 $error = '';
 $success = '';
 
