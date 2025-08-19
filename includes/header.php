@@ -835,7 +835,34 @@ if (!in_array($current_page, $public_pages)) {
             </button>
             
             <a class="navbar-brand" href="index.php">
-                <i class="fas fa-chart-line me-2"></i><?php echo SITE_NAME; ?>
+                <?php
+                // Logo gösterimi
+                $show_logo = false;
+                $logo_path = '';
+                
+                try {
+                    if (class_exists('Database')) {
+                        $database = new Database();
+                        $db = $database->getConnection();
+                        $query = "SELECT setting_value FROM settings WHERE setting_key = 'main_logo'";
+                        $stmt = $db->prepare($query);
+                        $stmt->execute();
+                        $logo_result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        
+                        if ($logo_result && !empty($logo_result['setting_value']) && file_exists($logo_result['setting_value'])) {
+                            $show_logo = true;
+                            $logo_path = $logo_result['setting_value'];
+                        }
+                    }
+                } catch (Exception $e) {
+                    // Hata durumunda varsayılan görünüm
+                }
+                
+                if ($show_logo): ?>
+                    <img src="<?php echo htmlspecialchars($logo_path); ?>" alt="<?php echo SITE_NAME; ?>" style="height: 40px; max-width: 200px;" class="me-2">
+                <?php else: ?>
+                    <i class="fas fa-chart-line me-2"></i><?php echo SITE_NAME; ?>
+                <?php endif; ?>
             </a>
             
             <!-- Desktop Navigation -->
@@ -949,7 +976,11 @@ if (!in_array($current_page, $public_pages)) {
     <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="mobileMenuLabel">
-                <i class="fas fa-chart-line me-2 text-primary"></i><?php echo SITE_NAME; ?>
+                <?php if ($show_logo): ?>
+                    <img src="<?php echo htmlspecialchars($logo_path); ?>" alt="<?php echo SITE_NAME; ?>" style="height: 32px; max-width: 150px;" class="me-2">
+                <?php else: ?>
+                    <i class="fas fa-chart-line me-2 text-primary"></i><?php echo SITE_NAME; ?>
+                <?php endif; ?>
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
