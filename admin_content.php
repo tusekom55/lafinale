@@ -3,7 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_start();
+// Only start session if not already started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Include required files
 if (file_exists('config/database.php')) {
@@ -175,7 +178,7 @@ $default_content = [
 ];
 
 // Function to get content with fallback
-function getContentValue($content, $section, $key, $language, $default_content) {
+function getContentValueWithFallback($content, $section, $key, $language, $default_content) {
     if (isset($content[$section][$key]) && !empty($content[$section][$key])) {
         return $content[$section][$key];
     }
@@ -267,30 +270,30 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Ana Başlık</label>
-                            <textarea class="form-control" name="hero__title" rows="2" placeholder="Ana sayfa başlığı"><?php echo htmlspecialchars(getContentValue($content, 'hero', 'title', $current_language, $default_content)); ?></textarea>
+                            <textarea class="form-control" name="hero__title" rows="2" placeholder="Ana sayfa başlığı"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'title', $current_language, $default_content)); ?></textarea>
                             <small class="text-muted">HTML kullanabilirsiniz (örn: &lt;br&gt;)</small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Alt Başlık</label>
-                            <textarea class="form-control" name="hero__subtitle" rows="2" placeholder="Ana sayfa açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'hero', 'subtitle', $current_language, $default_content)); ?></textarea>
+                            <textarea class="form-control" name="hero__subtitle" rows="2" placeholder="Ana sayfa açıklaması"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Metni</label>
-                            <input type="text" class="form-control" name="hero__primary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Hemen Başla">
+                            <input type="text" class="form-control" name="hero__primary_button_text" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Hemen Başla">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Linki</label>
-                            <input type="text" class="form-control" name="hero__primary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
+                            <input type="text" class="form-control" name="hero__primary_button_link" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Metni</label>
-                            <input type="text" class="form-control" name="hero__secondary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları İncele">
+                            <input type="text" class="form-control" name="hero__secondary_button_text" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları İncele">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Linki</label>
-                            <input type="text" class="form-control" name="hero__secondary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
+                            <input type="text" class="form-control" name="hero__secondary_button_link" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'hero', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
                         </div>
                     </div>
                 </div>
@@ -305,11 +308,11 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Başlığı</label>
-                            <input type="text" class="form-control" name="features__title" value="<?php echo htmlspecialchars(getContentValue($content, 'features', 'title', $current_language, $default_content)); ?>" placeholder="Neden GlobalBorsa?">
+                            <input type="text" class="form-control" name="features__title" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'features', 'title', $current_language, $default_content)); ?>" placeholder="Neden GlobalBorsa?">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Açıklaması</label>
-                            <textarea class="form-control" name="features__subtitle" rows="2" placeholder="Özellikler açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'features', 'subtitle', $current_language, $default_content)); ?></textarea>
+                            <textarea class="form-control" name="features__subtitle" rows="2" placeholder="Özellikler açıklaması"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'features', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                     
@@ -320,11 +323,11 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label">Başlık</label>
-                                <input type="text" class="form-control" name="features__feature<?php echo $i; ?>_title" value="<?php echo htmlspecialchars(getContentValue($content, 'features', 'feature'.$i.'_title', $current_language, $default_content)); ?>">
+                                <input type="text" class="form-control" name="features__feature<?php echo $i; ?>_title" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'features', 'feature'.$i.'_title', $current_language, $default_content)); ?>">
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label">Açıklama</label>
-                                <textarea class="form-control" name="features__feature<?php echo $i; ?>_text" rows="2"><?php echo htmlspecialchars(getContentValue($content, 'features', 'feature'.$i.'_text', $current_language, $default_content)); ?></textarea>
+                                <textarea class="form-control" name="features__feature<?php echo $i; ?>_text" rows="2"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'features', 'feature'.$i.'_text', $current_language, $default_content)); ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -339,7 +342,7 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                 </div>
                 <div class="section-body">
                     <label class="form-label fw-bold">Bölüm Başlığı</label>
-                    <input type="text" class="form-control" name="markets__title" value="<?php echo htmlspecialchars(getContentValue($content, 'markets', 'title', $current_language, $default_content)); ?>" placeholder="Canlı Piyasa Verileri">
+                    <input type="text" class="form-control" name="markets__title" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'markets', 'title', $current_language, $default_content)); ?>" placeholder="Canlı Piyasa Verileri">
                     <small class="text-muted">Piyasa verileri otomatik olarak API'den çekilir</small>
                 </div>
             </div>
@@ -353,11 +356,11 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Başlığı</label>
-                            <input type="text" class="form-control" name="education__title" value="<?php echo htmlspecialchars(getContentValue($content, 'education', 'title', $current_language, $default_content)); ?>" placeholder="Trading Akademisi">
+                            <input type="text" class="form-control" name="education__title" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'education', 'title', $current_language, $default_content)); ?>" placeholder="Trading Akademisi">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Açıklaması</label>
-                            <textarea class="form-control" name="education__subtitle" rows="2" placeholder="Eğitim açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'education', 'subtitle', $current_language, $default_content)); ?></textarea>
+                            <textarea class="form-control" name="education__subtitle" rows="2" placeholder="Eğitim açıklaması"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'education', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -372,33 +375,33 @@ function getContentValue($content, $section, $key, $language, $default_content) 
                     <div class="row">
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Badge Metni</label>
-                            <input type="text" class="form-control" name="cta__badge" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'badge', $current_language, $default_content)); ?>" placeholder="🚀 Sınırlı Süreli Fırsat">
+                            <input type="text" class="form-control" name="cta__badge" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'badge', $current_language, $default_content)); ?>" placeholder="🚀 Sınırlı Süreli Fırsat">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label fw-bold">Ana Başlık</label>
-                            <input type="text" class="form-control" name="cta__title" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'title', $current_language, $default_content)); ?>" placeholder="Yatırım Yolculuğunuza Hemen Başlayın!">
+                            <input type="text" class="form-control" name="cta__title" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'title', $current_language, $default_content)); ?>" placeholder="Yatırım Yolculuğunuza Hemen Başlayın!">
                         </div>
                     </div>
                     <div class="mt-3">
                         <label class="form-label fw-bold">Açıklama</label>
-                        <textarea class="form-control" name="cta__text" rows="3" placeholder="CTA açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'cta', 'text', $current_language, $default_content)); ?></textarea>
+                        <textarea class="form-control" name="cta__text" rows="3" placeholder="CTA açıklaması"><?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'text', $current_language, $default_content)); ?></textarea>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Metni</label>
-                            <input type="text" class="form-control" name="cta__primary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Ücretsiz Hesap Aç">
+                            <input type="text" class="form-control" name="cta__primary_button_text" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Ücretsiz Hesap Aç">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Linki</label>
-                            <input type="text" class="form-control" name="cta__primary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
+                            <input type="text" class="form-control" name="cta__primary_button_link" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Metni</label>
-                            <input type="text" class="form-control" name="cta__secondary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları Keşfet">
+                            <input type="text" class="form-control" name="cta__secondary_button_text" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları Keşfet">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Linki</label>
-                            <input type="text" class="form-control" name="cta__secondary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
+                            <input type="text" class="form-control" name="cta__secondary_button_link" value="<?php echo htmlspecialchars(getContentValueWithFallback($content, 'cta', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
                         </div>
                     </div>
                 </div>
