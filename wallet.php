@@ -564,17 +564,6 @@ include 'includes/header.php';
                                 </button>
                             </form>
                             
-                            <!-- Deposit Instructions -->
-                            <div class="mt-4 p-3 bg-info bg-opacity-10 border border-info rounded">
-                                <h6 class="text-info"><?php echo t('deposit_instructions'); ?></h6>
-                                <small class="text-muted">
-                                    <strong>IBAN:</strong> TR12 3456 7890 1234 5678 90<br>
-                                    <strong>Hesap Adı:</strong> GlobalBorsa Ltd.<br>
-                                    <strong>Papara No:</strong> 1234567890<br>
-                                    <br>
-                                    <?php echo t('include_username_description'); ?>
-                                </small>
-                            </div>
                         </div>
                         
                         <!-- Simple Withdraw Form -->
