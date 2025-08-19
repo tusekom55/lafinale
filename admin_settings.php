@@ -64,10 +64,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
                 throw new Exception('Dosya boyutu 5MB\'dan küçük olmalıdır.');
             }
             
+            // Upload dizinini oluştur (yoksa)
+            $upload_dir = 'uploads/logos/';
+            if (!is_dir($upload_dir)) {
+                if (!mkdir($upload_dir, 0755, true)) {
+                    throw new Exception('Upload dizini oluşturulamadı. Lütfen uploads/logos/ klasörüne yazma izni verin.');
+                }
+            }
+            
+            // Dizin yazılabilir mi kontrol et
+            if (!is_writable($upload_dir)) {
+                throw new Exception('Upload dizinine yazma izni yok. Lütfen uploads/logos/ klasörüne yazma izni verin.');
+            }
+            
             // Dosya adı oluştur
             $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = $logo_type . '_' . time() . '.' . $extension;
-            $upload_path = 'uploads/logos/' . $filename;
+            $upload_path = $upload_dir . $filename;
             
             // Dosyayı yükle
             if (move_uploaded_file($file['tmp_name'], $upload_path)) {
