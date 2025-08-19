@@ -23,13 +23,11 @@ if ($_POST) {
         if ($deposit_type == 'tl_to_usd') {
             // USD Mode: User pays in TL, gets USD
             if ($tl_amount < MIN_DEPOSIT_AMOUNT) {
-                $error = getCurrentLang() == 'tr' ? 
-                    'Minimum para yatırma tutarı ' . MIN_DEPOSIT_AMOUNT . ' TL' : 
-                    'Minimum deposit amount is ' . MIN_DEPOSIT_AMOUNT . ' TL';
+                $error = t('minimum_deposit') . ' ' . MIN_DEPOSIT_AMOUNT . ' TL';
             } elseif ($amount <= 0) {
                 $error = getCurrentLang() == 'tr' ? 'Geçersiz dolar tutarı' : 'Invalid USD amount';
             } elseif (!in_array($method, ['bank', 'digital', 'crypto'])) {
-                $error = getCurrentLang() == 'tr' ? 'Geçersiz ödeme yöntemi' : 'Invalid payment method';
+                $error = t('invalid_payment_method');
             } else {
                 $database = new Database();
                 $db = $database->getConnection();
@@ -45,7 +43,7 @@ if ($_POST) {
                         $success = t('deposit_request_sent');
                         logActivity($user_id, 'deposit_request', "TL-to-USD Deposit: $tl_amount TL → $amount USD (Rate: $exchange_rate), Method: $method");
                     } else {
-                        $error = getCurrentLang() == 'tr' ? 'Bir hata oluştu' : 'An error occurred';
+                        $error = t('an_error_occurred');
                     }
                 } catch (PDOException $e) {
                     // Fallback to basic insert if new columns don't exist
@@ -65,9 +63,7 @@ if ($_POST) {
         } else {
             // Normal TL deposit
             if ($amount < MIN_DEPOSIT_AMOUNT) {
-                $error = getCurrentLang() == 'tr' ? 
-                    'Minimum para yatırma tutarı ' . MIN_DEPOSIT_AMOUNT . ' TL' : 
-                    'Minimum deposit amount is ' . MIN_DEPOSIT_AMOUNT . ' TL';
+                $error = t('minimum_deposit') . ' ' . MIN_DEPOSIT_AMOUNT . ' TL';
             } elseif (!in_array($method, ['bank', 'digital', 'crypto'])) {
                 $error = getCurrentLang() == 'tr' ? 'Geçersiz ödeme yöntemi' : 'Invalid payment method';
             } else {
@@ -82,7 +78,7 @@ if ($_POST) {
                         $success = t('deposit_request_sent');
                         logActivity($user_id, 'deposit_request', "Amount: $amount TL, Method: $method");
                     } else {
-                        $error = getCurrentLang() == 'tr' ? 'Bir hata oluştu' : 'An error occurred';
+                        $error = t('an_error_occurred');
                     }
                 } catch (PDOException $e) {
                     // Fallback to basic insert if deposit_type column doesn't exist
@@ -109,13 +105,11 @@ if ($_POST) {
         $balance_tl = getUserBalance($user_id, 'tl');
         
         if ($amount < MIN_WITHDRAWAL_AMOUNT) {
-            $error = getCurrentLang() == 'tr' ? 
-                'Minimum para çekme tutarı ' . MIN_WITHDRAWAL_AMOUNT . ' TL' : 
-                'Minimum withdrawal amount is ' . MIN_WITHDRAWAL_AMOUNT . ' TL';
+            $error = t('minimum_withdrawal') . ' ' . MIN_WITHDRAWAL_AMOUNT . ' TL';
         } elseif ($amount > $balance_tl) {
             $error = t('insufficient_balance');
         } elseif (!in_array($method, ['iban', 'papara'])) {
-            $error = getCurrentLang() == 'tr' ? 'Geçersiz ödeme yöntemi' : 'Invalid payment method';
+            $error = t('invalid_payment_method');
         } elseif ($method == 'iban' && empty($iban_info)) {
             $error = getCurrentLang() == 'tr' ? 'IBAN bilgisi gerekli' : 'IBAN information required';
         } elseif ($method == 'papara' && empty($papara_info)) {
@@ -131,7 +125,7 @@ if ($_POST) {
                 $success = t('withdrawal_request_sent');
                 logActivity($user_id, 'withdrawal_request', "Amount: $amount TL, Method: $method");
             } else {
-                $error = getCurrentLang() == 'tr' ? 'Bir hata oluştu' : 'An error occurred';
+                $error = t('an_error_occurred');
             }
         }
     }
@@ -213,9 +207,9 @@ include 'includes/header.php';
                                 <i class="fas fa-<?php echo $trading_currency == 1 ? 'turkish-lira-sign' : 'dollar-sign'; ?> fa-3x text-success mb-3"></i>
                                 <div class="h3 mb-1 text-success"><?php echo formatNumber($primary_balance); ?></div>
                                 <div class="h6 text-success">
-                                    <?php echo $trading_currency == 1 ? 'Türk Lirası' : 'US Dollar'; ?>
+                                    <?php echo $trading_currency == 1 ? t('turkish_lira') : t('us_dollar'); ?>
                                 </div>
-                                <small class="text-success fw-bold">Ana Bakiye</small>
+                                <small class="text-success fw-bold"><?php echo t('main_balance'); ?></small>
                             </div>
                         </div>
                         
@@ -225,7 +219,7 @@ include 'includes/header.php';
                                 <i class="fas fa-<?php echo $trading_currency == 1 ? 'dollar-sign' : 'turkish-lira-sign'; ?> fa-2x text-muted mb-3"></i>
                                 <div class="h4 mb-1"><?php echo formatNumber($secondary_balance); ?></div>
                                 <div class="h6 text-muted">
-                                    <?php echo $trading_currency == 1 ? 'US Dollar' : 'Türk Lirası'; ?>
+                                    <?php echo $trading_currency == 1 ? t('us_dollar') : t('turkish_lira'); ?>
                                 </div>
                                 <small class="text-muted">
                                     <?php if ($trading_currency == 1): ?>
@@ -344,12 +338,12 @@ include 'includes/header.php';
                                 <?php endif; ?>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><?php echo getCurrentLang() == 'tr' ? 'Ödeme Yöntemi' : 'Payment Method'; ?></label>
+                                    <label class="form-label"><?php echo t('payment_method'); ?></label>
                                     <select class="form-select" name="method" id="depositMethod" onchange="showDepositDetails()" required>
-                                        <option value=""><?php echo getCurrentLang() == 'tr' ? 'Seçiniz' : 'Select'; ?></option>
-                                        <option value="bank">🏦 Banka Havalesi</option>
-                                        <option value="digital">📱 Dijital Ödeme (Papara vb.)</option>
-                                        <option value="crypto">₿ Kripto Para</option>
+                                        <option value=""><?php echo t('select'); ?></option>
+                                        <option value="bank">🏦 <?php echo t('bank_transfer'); ?></option>
+                                        <option value="digital">📱 <?php echo t('digital_payment'); ?></option>
+                                        <option value="crypto">₿ <?php echo t('crypto_currency'); ?></option>
                                     </select>
                                 </div>
 
@@ -560,9 +554,9 @@ include 'includes/header.php';
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><?php echo getCurrentLang() == 'tr' ? 'Referans/Açıklama' : 'Reference/Description'; ?></label>
+                                    <label class="form-label"><?php echo t('reference_description'); ?></label>
                                     <input type="text" class="form-control" name="reference" 
-                                           placeholder="<?php echo getCurrentLang() == 'tr' ? 'İşlem referansı veya açıklama' : 'Transaction reference or description'; ?>">
+                                           placeholder="<?php echo t('transfer_reference_placeholder'); ?>">
                                 </div>
                                 
                                 <button type="submit" name="deposit" class="btn btn-success w-100">
@@ -572,15 +566,13 @@ include 'includes/header.php';
                             
                             <!-- Deposit Instructions -->
                             <div class="mt-4 p-3 bg-info bg-opacity-10 border border-info rounded">
-                                <h6 class="text-info"><?php echo getCurrentLang() == 'tr' ? 'Para Yatırma Talimatları' : 'Deposit Instructions'; ?></h6>
+                                <h6 class="text-info"><?php echo t('deposit_instructions'); ?></h6>
                                 <small class="text-muted">
                                     <strong>IBAN:</strong> TR12 3456 7890 1234 5678 90<br>
                                     <strong>Hesap Adı:</strong> GlobalBorsa Ltd.<br>
                                     <strong>Papara No:</strong> 1234567890<br>
                                     <br>
-                                    <?php echo getCurrentLang() == 'tr' ? 
-                                        'Havale/EFT açıklama kısmına kullanıcı adınızı yazınız.' : 
-                                        'Please include your username in the transfer description.'; ?>
+                                    <?php echo t('include_username_description'); ?>
                                 </small>
                             </div>
                         </div>
@@ -719,7 +711,7 @@ include 'includes/header.php';
                                 
                                 <div class="alert alert-info mb-3">
                                     <i class="fas fa-info-circle me-2"></i>
-                                    <small>Para çekme işlemi admin onayı gerektirir. İşlem süresi 1-3 iş günüdür.</small>
+                                    <small><?php echo t('withdraw_instructions'); ?></small>
                                 </div>
                                 
                                 <button type="submit" name="withdraw" class="btn btn-danger w-100">
@@ -743,12 +735,12 @@ include 'includes/header.php';
                     <ul class="nav nav-tabs nav-fill mb-3" id="historyTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="deposits-tab" data-bs-toggle="tab" data-bs-target="#deposits" type="button">
-                                <?php echo getCurrentLang() == 'tr' ? 'Para Yatırma' : 'Deposits'; ?>
+                                <?php echo t('deposits'); ?>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="withdrawals-tab" data-bs-toggle="tab" data-bs-target="#withdrawals" type="button">
-                                <?php echo getCurrentLang() == 'tr' ? 'Para Çekme' : 'Withdrawals'; ?>
+                                <?php echo t('withdrawals'); ?>
                             </button>
                         </li>
                     </ul>
@@ -760,7 +752,7 @@ include 'includes/header.php';
                             <div class="text-center py-4">
                                 <i class="fas fa-plus-circle fa-2x text-muted mb-3"></i>
                                 <p class="text-muted">
-                                    <?php echo getCurrentLang() == 'tr' ? 'Henüz para yatırma işlemi yok' : 'No deposit history yet'; ?>
+                                    <?php echo t('no_deposit_history'); ?>
                                 </p>
                             </div>
                             <?php else: ?>
@@ -768,10 +760,10 @@ include 'includes/header.php';
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Tarih' : 'Date'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Tutar' : 'Amount'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Yöntem' : 'Method'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Durum' : 'Status'; ?></th>
+                                            <th><?php echo t('date'); ?></th>
+                                            <th><?php echo t('amount'); ?></th>
+                                            <th><?php echo t('method'); ?></th>
+                                            <th><?php echo t('status'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -842,7 +834,7 @@ include 'includes/header.php';
                             <div class="text-center py-4">
                                 <i class="fas fa-minus-circle fa-2x text-muted mb-3"></i>
                                 <p class="text-muted">
-                                    <?php echo getCurrentLang() == 'tr' ? 'Henüz para çekme işlemi yok' : 'No withdrawal history yet'; ?>
+                                    <?php echo t('no_withdrawal_history'); ?>
                                 </p>
                             </div>
                             <?php else: ?>
@@ -850,10 +842,10 @@ include 'includes/header.php';
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Tarih' : 'Date'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Tutar' : 'Amount'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Yöntem' : 'Method'; ?></th>
-                                            <th><?php echo getCurrentLang() == 'tr' ? 'Durum' : 'Status'; ?></th>
+                                            <th><?php echo t('date'); ?></th>
+                                            <th><?php echo t('amount'); ?></th>
+                                            <th><?php echo t('method'); ?></th>
+                                            <th><?php echo t('status'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
