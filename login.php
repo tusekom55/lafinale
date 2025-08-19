@@ -100,14 +100,6 @@ include 'includes/header.php';
                         </p>
                     </div>
                     
-                    <!-- Demo Account Info -->
-                    <div class="mt-4 p-3 bg-light rounded">
-                        <h6 class="mb-2"><?php echo getCurrentLang() == 'tr' ? 'Demo Hesap' : 'Demo Account'; ?></h6>
-                        <small class="text-muted">
-                            <strong><?php echo getCurrentLang() == 'tr' ? 'Kullanıcı Adı' : 'Username'; ?>:</strong> admin<br>
-                            <strong><?php echo getCurrentLang() == 'tr' ? 'Şifre' : 'Password'; ?>:</strong> admin123
-                        </small>
-                    </div>
                 </div>
             </div>
         </div>
