@@ -1,10 +1,60 @@
 <?php
 require_once 'includes/functions.php';
+require_once 'includes/content_functions.php';
+require_once 'config/database.php';
 
-$page_title = 'GlobalBorsa - Türkiye\'nin En Güvenilir Yatırım Platformu';
+// Initialize database and content system
+$database = new Database();
+$db = $database->getConnection();
+
+// Get current language
+$current_lang = getCurrentLang();
+
+// Load homepage content
+$homepage_content = [];
+$cms_enabled = false;
+
+try {
+    if (isCMSEnabled($db)) {
+        $homepage_content = getAllHomepageContent($db, $current_lang);
+        $cms_enabled = true;
+    }
+} catch (Exception $e) {
+    // CMS not available, use fallback content
+    $cms_enabled = false;
+}
+
+// Set page title from CMS or fallback
+if ($cms_enabled && isset($homepage_content['hero']['title'])) {
+    $hero_title = strip_tags(getContent($homepage_content, 'hero', 'title', 'GlobalBorsa - Yatırım Platformu'));
+    $page_title = $hero_title . ' - GlobalBorsa';
+} else {
+    $page_title = 'GlobalBorsa - Türkiye\'nin En Güvenilir Yatırım Platformu';
+}
 
 // Get some sample market data for display  
 $markets = getMarketData('us_stocks', 6);
+
+// Helper function for content output
+function outputContent($content, $section, $key, $fallback_tr, $fallback_en, $escape = true) {
+    global $cms_enabled, $current_lang;
+    
+    if ($cms_enabled) {
+        echoContent($content, $section, $key, ($current_lang == 'tr' ? $fallback_tr : $fallback_en), $escape);
+    } else {
+        echo $escape ? htmlspecialchars(($current_lang == 'tr' ? $fallback_tr : $fallback_en)) : ($current_lang == 'tr' ? $fallback_tr : $fallback_en);
+    }
+}
+
+function getContentOrFallback($content, $section, $key, $fallback_tr, $fallback_en) {
+    global $cms_enabled, $current_lang;
+    
+    if ($cms_enabled) {
+        return getContent($content, $section, $key, ($current_lang == 'tr' ? $fallback_tr : $fallback_en));
+    } else {
+        return ($current_lang == 'tr' ? $fallback_tr : $fallback_en);
+    }
+}
 ?>
 
 <?php include 'includes/header.php'; ?>
@@ -1217,23 +1267,23 @@ $markets = getMarketData('us_stocks', 6);
         
         <div class="hero-content">
             <h1 class="hero-title">
-                <?php echo getCurrentLang() == 'tr' ? 
-                    'Türkiye\'nin En Güvenilir <br>Yatırım Platformu' : 
-                    'Turkey\'s Most Trusted <br>Investment Platform'; ?>
+                <?php outputContent($homepage_content, 'hero', 'title', 
+                    'Türkiye\'nin En Güvenilir <br>Yatırım Platformu', 
+                    'Turkey\'s Most Trusted <br>Investment Platform', false); ?>
             </h1>
             <p class="hero-subtitle">
-                <?php echo getCurrentLang() == 'tr' ? 
-                    'Düşük komisyonlar, güvenli altyapı ve profesyonel destek ile yatırımlarınızı büyütün.' : 
-                    'Grow your investments with low commissions, secure infrastructure and professional support.'; ?>
+                <?php outputContent($homepage_content, 'hero', 'subtitle', 
+                    'Düşük komisyonlar, güvenli altyapı ve profesyonel destek ile yat��rımlarınızı büyütün.', 
+                    'Grow your investments with low commissions, secure infrastructure and professional support.'); ?>
             </p>
             <div class="hero-cta">
-                <a href="register.php" class="btn-hero btn-hero-primary">
+                <a href="<?php echo getContentOrFallback($homepage_content, 'hero', 'primary_button_link', 'register.php', 'register.php'); ?>" class="btn-hero btn-hero-primary">
                     <i class="fas fa-rocket"></i>
-                    <?php echo getCurrentLang() == 'tr' ? 'Hemen Başla' : 'Get Started'; ?>
+                    <?php outputContent($homepage_content, 'hero', 'primary_button_text', 'Hemen Başla', 'Get Started'); ?>
                 </a>
-                <a href="markets.php" class="btn-hero btn-hero-secondary">
+                <a href="<?php echo getContentOrFallback($homepage_content, 'hero', 'secondary_button_link', 'markets.php', 'markets.php'); ?>" class="btn-hero btn-hero-secondary">
                     <i class="fas fa-chart-line"></i>
-                    <?php echo getCurrentLang() == 'tr' ? 'Piyasaları İncele' : 'Explore Markets'; ?>
+                    <?php outputContent($homepage_content, 'hero', 'secondary_button_text', 'Piyasaları İncele', 'Explore Markets'); ?>
                 </a>
             </div>
         </div>
@@ -1290,12 +1340,12 @@ $markets = getMarketData('us_stocks', 6);
         <div class="container">
             <div class="text-center">
                 <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 1rem;">
-                    <?php echo getCurrentLang() == 'tr' ? 'Neden GlobalBorsa?' : 'Why GlobalBorsa?'; ?>
+                    <?php outputContent($homepage_content, 'features', 'title', 'Neden GlobalBorsa?', 'Why GlobalBorsa?'); ?>
                 </h2>
                 <p style="font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto;">
-                    <?php echo getCurrentLang() == 'tr' ? 
-                        'Türkiye\'nin en güvenilir yatırım platformu olarak size sunduğumuz avantajlar' : 
-                        'Advantages we offer as Turkey\'s most trusted investment platform'; ?>
+                    <?php outputContent($homepage_content, 'features', 'subtitle', 
+                        'Türkiye\'nin en güvenilir yatırım platformu olarak size sunduğumuz avantajlar', 
+                        'Advantages we offer as Turkey\'s most trusted investment platform'); ?>
                 </p>
             </div>
             
@@ -1305,12 +1355,12 @@ $markets = getMarketData('us_stocks', 6);
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3 class="feature-title">
-                        <?php echo getCurrentLang() == 'tr' ? 'Güvenli Altyapı' : 'Secure Infrastructure'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature1_title', 'Güvenli Altyapı', 'Secure Infrastructure'); ?>
                     </h3>
                     <p class="feature-text">
-                        <?php echo getCurrentLang() == 'tr' ? 
-                            'Çoklu imza, soğuk cüzdan depolama ve 2FA ile paranız %100 güvende. Sigortalı varlık koruması.' : 
-                            'Your money is 100% safe with multi-signature, cold wallet storage and 2FA. Insured asset protection.'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature1_text', 
+                            'Çoklu imza, soğuk cüzdan depolama ve 2FA ile paranız %100 güvende. Sigortalı varlık koruması.', 
+                            'Your money is 100% safe with multi-signature, cold wallet storage and 2FA. Insured asset protection.'); ?>
                     </p>
                 </div>
                 
@@ -1319,12 +1369,12 @@ $markets = getMarketData('us_stocks', 6);
                         <i class="fas fa-bolt"></i>
                     </div>
                     <h3 class="feature-title">
-                        <?php echo getCurrentLang() == 'tr' ? 'Hızlı İşlemler' : 'Fast Transactions'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature2_title', 'Hızlı İşlemler', 'Fast Transactions'); ?>
                     </h3>
                     <p class="feature-text">
-                        <?php echo getCurrentLang() == 'tr' ? 
-                            'Milisaniye hızında emir eşleştirme motoru ile anlık alım-satım yapın. 0.1 saniyede işlem tamamlama.' : 
-                            'Trade instantly with millisecond-speed order matching engine. Complete transactions in 0.1 seconds.'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature2_text', 
+                            'Milisaniye hızında emir eşleştirme motoru ile anlık alım-satım yapın. 0.1 saniyede işlem tamamlama.', 
+                            'Trade instantly with millisecond-speed order matching engine. Complete transactions in 0.1 seconds.'); ?>
                     </p>
                 </div>
                 
@@ -1333,12 +1383,12 @@ $markets = getMarketData('us_stocks', 6);
                         <i class="fas fa-percentage"></i>
                     </div>
                     <h3 class="feature-title">
-                        <?php echo getCurrentLang() == 'tr' ? 'Düşük Komisyonlar' : 'Low Commissions'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature3_title', 'Düşük Komisyonlar', 'Low Commissions'); ?>
                     </h3>
                     <p class="feature-text">
-                        <?php echo getCurrentLang() == 'tr' ? 
-                            'Türkiye\'nin en düşük komisyon oranları ile daha fazla kar edin. Şeffaf ve adil fiyatlandırma.' : 
-                            'Earn more with Turkey\'s lowest commission rates. Transparent and fair pricing.'; ?>
+                        <?php outputContent($homepage_content, 'features', 'feature3_text', 
+                            'Türkiye\'nin en düşük komisyon oranları ile daha fazla kar edin. Şeffaf ve adil fiyatlandırma.', 
+                            'Earn more with Turkey\'s lowest commission rates. Transparent and fair pricing.'); ?>
                     </p>
                 </div>
             </div>
@@ -1349,7 +1399,7 @@ $markets = getMarketData('us_stocks', 6);
     <section class="markets-ticker">
         <div class="container">
             <h2 class="ticker-title">
-                <?php echo getCurrentLang() == 'tr' ? 'Canlı Piyasa Verileri' : 'Live Market Data'; ?>
+                <?php outputContent($homepage_content, 'markets', 'title', 'Canlı Piyasa Verileri', 'Live Market Data'); ?>
             </h2>
             
             <div class="ticker-container">
@@ -1415,12 +1465,12 @@ $markets = getMarketData('us_stocks', 6);
         <div class="container">
             <div class="text-center">
                 <h2 style="font-size: 3rem; font-weight: 800; color: var(--secondary-color); margin-bottom: 1rem;">
-                    <?php echo getCurrentLang() == 'tr' ? 'Trading Akademisi' : 'Trading Academy'; ?>
+                    <?php outputContent($homepage_content, 'education', 'title', 'Trading Akademisi', 'Trading Academy'); ?>
                 </h2>
                 <p style="font-size: 1.2rem; color: #666; max-width: 700px; margin: 0 auto;">
-                    <?php echo getCurrentLang() == 'tr' ? 
-                        'Profesyonel trader olmak için ihtiyacınız olan tüm bilgileri uzman analistlerimizden öğrenin' : 
-                        'Learn everything you need to become a professional trader from our expert analysts'; ?>
+                    <?php outputContent($homepage_content, 'education', 'subtitle', 
+                        'Profesyonel trader olmak için ihtiyacınız olan tüm bilgileri uzman analistlerimizden öğrenin', 
+                        'Learn everything you need to become a professional trader from our expert analysts'); ?>
                 </p>
             </div>
             
@@ -1538,24 +1588,24 @@ $markets = getMarketData('us_stocks', 6);
         
         <div class="cta-container">
             <div class="cta-badge">
-                <?php echo getCurrentLang() == 'tr' ? '🚀 Sınırlı Süreli Fırsat' : '🚀 Limited Time Offer'; ?>
+                <?php outputContent($homepage_content, 'cta', 'badge', '🚀 Sınırlı Süreli Fırsat', '🚀 Limited Time Offer'); ?>
             </div>
             <h2 class="cta-title">
-                <?php echo getCurrentLang() == 'tr' ? 'Yatırım Yolculuğunuza Hemen Başlayın!' : 'Start Your Investment Journey Now!'; ?>
+                <?php outputContent($homepage_content, 'cta', 'title', 'Yatırım Yolculuğunuza Hemen Başlayın!', 'Start Your Investment Journey Now!'); ?>
             </h2>
             <p class="cta-text">
-                <?php echo getCurrentLang() == 'tr' ? 
-                    'Profesyonel araçlar, uzman analizler ve güvenli altyapı ile yatırımlarınızı bir sonraki seviyeye taşıyın. İlk yatırımınızda %100 bonus kazanma fırsatını kaçırmayın!' : 
-                    'Take your investments to the next level with professional tools, expert analysis and secure infrastructure. Don\'t miss the opportunity to earn 100% bonus on your first investment!'; ?>
+                <?php outputContent($homepage_content, 'cta', 'text', 
+                    'Profesyonel araçlar, uzman analizler ve güvenli altyapı ile yatırımlarınızı bir sonraki seviyeye taşıyın. İlk yatırımınızda %100 bonus kazanma fırsatını kaçırmayın!', 
+                    'Take your investments to the next level with professional tools, expert analysis and secure infrastructure. Don\'t miss the opportunity to earn 100% bonus on your first investment!'); ?>
             </p>
             <div class="cta-buttons">
-                <a href="register.php" class="cta-btn cta-btn-primary">
+                <a href="<?php echo getContentOrFallback($homepage_content, 'cta', 'primary_button_link', 'register.php', 'register.php'); ?>" class="cta-btn cta-btn-primary">
                     <i class="fas fa-rocket"></i>
-                    <?php echo getCurrentLang() == 'tr' ? 'Ücretsiz Hesap Aç' : 'Open Free Account'; ?>
+                    <?php outputContent($homepage_content, 'cta', 'primary_button_text', 'Ücretsiz Hesap Aç', 'Open Free Account'); ?>
                 </a>
-                <a href="markets.php" class="cta-btn cta-btn-secondary">
+                <a href="<?php echo getContentOrFallback($homepage_content, 'cta', 'secondary_button_link', 'markets.php', 'markets.php'); ?>" class="cta-btn cta-btn-secondary">
                     <i class="fas fa-chart-line"></i>
-                    <?php echo getCurrentLang() == 'tr' ? 'Piyasaları Keşfet' : 'Explore Markets'; ?>
+                    <?php outputContent($homepage_content, 'cta', 'secondary_button_text', 'Piyasaları Keşfet', 'Explore Markets'); ?>
                 </a>
             </div>
         </div>
