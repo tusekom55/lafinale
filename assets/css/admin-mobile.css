@@ -1,0 +1,517 @@
+/* Admin Panel Mobile Optimization CSS */
+
+/* Navigation Improvements */
+@media (max-width: 991px) {
+    .navbar-nav {
+        margin-top: 10px;
+        padding: 10px 0;
+    }
+    
+    .navbar-nav .navbar-text {
+        margin-bottom: 10px;
+        display: block;
+    }
+}
+
+/* Admin Dashboard Stats Cards */
+@media (max-width: 768px) {
+    .stats-card,
+    .card.bg-danger,
+    .card.bg-success,
+    .card.bg-info {
+        margin-bottom: 15px;
+    }
+    
+    .stats-card .card-body,
+    .card.bg-danger .card-body,
+    .card.bg-success .card-body,
+    .card.bg-info .card-body {
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .stats-card h5,
+    .card.bg-danger h5,
+    .card.bg-success h5,
+    .card.bg-info h5 {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .stats-card h3,
+    .card.bg-danger h3,
+    .card.bg-success h3,
+    .card.bg-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+    
+    .stats-card i,
+    .card.bg-danger i,
+    .card.bg-success i,
+    .card.bg-info i {
+        font-size: 1.5rem !important;
+        margin-bottom: 8px !important;
+    }
+}
+
+/* Admin Panel Cards */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .card-header h5 {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    
+    /* Admin dashboard navigation cards */
+    .row .col-md-6.col-lg-4 {
+        margin-bottom: 15px;
+    }
+    
+    .card .card-header h5 {
+        font-size: 0.95rem;
+    }
+    
+    .card .card-body p {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+    
+    .card .card-body .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Table Responsive Improvements */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: none;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table {
+        min-width: 600px;
+        font-size: 0.8rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 4px;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    
+    .table th {
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    /* User table specific */
+    .table .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .table .d-flex .me-3 {
+        margin: 0 0 5px 0 !important;
+    }
+    
+    .table .user-activity {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .table .badge-activity {
+        font-size: 0.6rem;
+        padding: 2px 6px;
+        margin: 1px;
+    }
+    
+    .table .btn-group {
+        flex-direction: column;
+        width: auto;
+    }
+    
+    .table .btn-group .btn {
+        margin: 1px 0;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Mobile Table Alternative Layout */
+@media (max-width: 576px) {
+    .table-responsive {
+        display: none;
+    }
+    
+    .mobile-user-cards {
+        display: block;
+    }
+    
+    .mobile-user-card {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .mobile-user-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .mobile-user-header .user-avatar {
+        margin-right: 15px;
+    }
+    
+    .mobile-user-header .user-info h6 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .mobile-user-header .user-info small {
+        color: #6c757d;
+        font-size: 0.8rem;
+    }
+    
+    .mobile-user-details {
+        margin-bottom: 15px;
+    }
+    
+    .mobile-detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        padding: 5px 0;
+    }
+    
+    .mobile-detail-row .label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.85rem;
+    }
+    
+    .mobile-detail-row .value {
+        color: #6c757d;
+        font-size: 0.85rem;
+        text-align: right;
+    }
+    
+    .mobile-user-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .mobile-user-actions .btn {
+        flex: 1;
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Hide desktop table on mobile */
+@media (min-width: 577px) {
+    .mobile-user-cards {
+        display: none;
+    }
+}
+
+/* Search and Filter Form */
+@media (max-width: 768px) {
+    .card-body .row.g-3 {
+        margin: 0;
+    }
+    
+    .card-body .row.g-3 > div {
+        margin-bottom: 10px;
+    }
+    
+    .card-body .row.g-3 .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .card-body .row.g-3 .col-md-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .card-body .row.g-3 .col-md-2 {
+        flex: 0 0 70%;
+        max-width: 70%;
+    }
+    
+    .card-body .row.g-3 .col-md-1 {
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+    
+    .form-control,
+    .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* Modal Improvements */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .modal-content {
+        border-radius: 8px;
+    }
+    
+    .modal-header {
+        padding: 15px;
+    }
+    
+    .modal-header .modal-title {
+        font-size: 1rem;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    .modal-footer {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .modal-footer .btn {
+        flex: 1;
+        padding: 10px;
+    }
+    
+    /* Balance Modal Specific */
+    #balanceModal .row .col-6 {
+        margin-bottom: 15px;
+    }
+    
+    #balanceModal .form-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    #balanceModal .form-control,
+    #balanceModal .form-select {
+        font-size: 16px;
+    }
+    
+    #balanceModal textarea.form-control {
+        min-height: 60px;
+    }
+}
+
+/* Page Header Improvements */
+@media (max-width: 768px) {
+    .d-flex.justify-content-between.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+    
+    .d-flex.justify-content-between.align-items-center h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+    
+    .d-flex.justify-content-between.align-items-center > div {
+        width: 100%;
+    }
+    
+    .d-flex.justify-content-between.align-items-center .btn {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Button Improvements */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 44px; /* Touch target size */
+        font-size: 0.9rem;
+    }
+    
+    .btn-sm {
+        min-height: 36px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .btn i {
+        margin-right: 5px;
+    }
+}
+
+/* Alert Improvements */
+@media (max-width: 768px) {
+    .alert {
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    .alert .btn-close {
+        padding: 8px;
+    }
+}
+
+/* Badge Improvements */
+@media (max-width: 768px) {
+    .badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+    
+    .badge.bg-success,
+    .badge.bg-info {
+        margin: 2px;
+        display: inline-block;
+    }
+}
+
+/* Touch Improvements */
+@media (max-width: 768px) {
+    /* Increase touch targets */
+    a, button, .btn, input, select, textarea {
+        min-height: 44px;
+    }
+    
+    /* Prevent text selection on buttons */
+    .btn, button {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Fix viewport issues */
+    body {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+}
+
+/* Loading States for Mobile */
+@media (max-width: 768px) {
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+/* Accessibility Improvements */
+@media (max-width: 768px) {
+    /* Focus styles */
+    .btn:focus,
+    .form-control:focus,
+    .form-select:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        .card {
+            border: 2px solid #000;
+        }
+        
+        .btn {
+            border: 2px solid #000;
+        }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+/* Landscape orientation fixes */
+@media (max-width: 768px) and (orientation: landscape) {
+    .modal-dialog {
+        margin: 5px;
+        max-width: calc(100% - 10px);
+        max-height: calc(100vh - 10px);
+    }
+    
+    .modal-content {
+        max-height: calc(100vh - 10px);
+        overflow-y: auto;
+    }
+    
+    .stats-card .card-body,
+    .card.bg-danger .card-body,
+    .card.bg-success .card-body,
+    .card.bg-info .card-body {
+        padding: 8px;
+    }
+    
+    .stats-card h5,
+    .card.bg-danger h5,
+    .card.bg-success h5,
+    .card.bg-info h5 {
+        font-size: 0.8rem;
+    }
+    
+    .stats-card h3,
+    .card.bg-danger h3,
+    .card.bg-success h3,
+    .card.bg-info h3 {
+        font-size: 1.2rem;
+    }
+}

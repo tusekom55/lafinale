@@ -1,0 +1,614 @@
+/* Custom CSS for GlobalBorsa */
+
+/* Market Table Styles */
+.market-table {
+    font-size: 0.95rem;
+}
+
+.market-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.market-table .market-row {
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.market-table .market-row:hover {
+    background-color: var(--hover-bg) !important;
+    border-left-color: var(--primary-color);
+    transform: translateX(2px);
+}
+
+.price-cell {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Price Change Animations */
+.price-up {
+    animation: priceUp 0.5s ease;
+}
+
+.price-down {
+    animation: priceDown 0.5s ease;
+}
+
+@keyframes priceUp {
+    0% { background-color: transparent; }
+    50% { background-color: #d4edda; }
+    100% { background-color: transparent; }
+}
+
+@keyframes priceDown {
+    0% { background-color: transparent; }
+    50% { background-color: #f8d7da; }
+    100% { background-color: transparent; }
+}
+
+/* Card Styles */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.input-group-text {
+    background-color: var(--secondary-bg);
+    border-color: var(--border-color);
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Toast Notifications */
+.toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .market-table {
+        font-size: 0.875rem;
+    }
+    
+    .market-table th,
+    .market-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .main-content {
+        padding: 1rem 0;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .market-table .d-none.d-md-table-cell {
+        display: none !important;
+    }
+    
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .market-tabs .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-bg: #1a1a1a;
+        --secondary-bg: #2d2d2d;
+        --text-primary: #ffffff;
+        --text-secondary: #b0b0b0;
+        --border-color: #404040;
+        --hover-bg: #333333;
+    }
+    
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+    }
+    
+    .navbar {
+        background-color: var(--primary-bg) !important;
+    }
+    
+    .card {
+        background-color: var(--primary-bg);
+        border-color: var(--border-color);
+    }
+    
+    .table {
+        color: var(--text-primary);
+    }
+    
+    .table th {
+        border-color: var(--border-color);
+    }
+    
+    .form-control {
+        background-color: var(--primary-bg);
+        border-color: var(--border-color);
+        color: var(--text-primary);
+    }
+    
+    .form-control:focus {
+        background-color: var(--primary-bg);
+        color: var(--text-primary);
+    }
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-soft {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.border-radius-lg {
+    border-radius: 12px !important;
+}
+
+.border-radius-xl {
+    border-radius: 16px !important;
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Trading Modal Styles */
+.trade-btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.trade-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.modal-xl {
+    max-width: 1200px;
+}
+
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 1.5rem;
+}
+
+.form-range {
+    height: 6px;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: var(--bs-primary);
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-pills .nav-link {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, #0056b3 100%);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-group .btn {
+    border-radius: 6px;
+}
+
+.btn-group .btn:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 1px;
+}
+
+.btn-group .btn:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Modal Animation */
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+/* Trade Summary Card */
+.card.bg-light {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border: 1px solid #dee2e6;
+}
+
+/* Price Animation Enhanced */
+.price-up {
+    animation: priceUpPulse 0.6s ease;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+}
+
+.price-down {
+    animation: priceDownPulse 0.6s ease;
+    background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%);
+}
+
+@keyframes priceUpPulse {
+    0% { 
+        background: transparent; 
+        transform: scale(1);
+    }
+    50% { 
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); 
+        transform: scale(1.02);
+    }
+    100% { 
+        background: transparent; 
+        transform: scale(1);
+    }
+}
+
+@keyframes priceDownPulse {
+    0% { 
+        background: transparent; 
+        transform: scale(1);
+    }
+    50% { 
+        background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%); 
+        transform: scale(1.02);
+    }
+    100% { 
+        background: transparent; 
+        transform: scale(1);
+    }
+}
+
+/* TradingView iframe styling */
+iframe[id="tradingview-widget"] {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Leverage badge styling */
+.badge.bg-primary {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, #0056b3 100%) !important;
+    box-shadow: 0 1px 3px rgba(0, 123, 255, 0.3);
+}
+
+/* Logo Styles */
+.market-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.market-logo:hover {
+    transform: scale(1.1);
+    border-color: var(--bs-primary);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.logo-fallback {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.logo-fallback:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Category Card Styles */
+.category-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+    border-color: rgba(0, 123, 255, 0.1);
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+}
+
+.category-active {
+    border-color: #007bff !important;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%) !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2) !important;
+}
+
+.category-active::before {
+    opacity: 1 !important;
+}
+
+.category-icon {
+    color: #007bff;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+.category-active .category-icon {
+    color: #0056b3;
+    transform: scale(1.05);
+}
+
+.category-card .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.category-card .card-text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #6c757d;
+}
+
+.category-active .card-title {
+    color: #0056b3;
+}
+
+.category-active .card-text {
+    color: #495057;
+}
+
+/* Responsive Category Cards */
+@media (max-width: 768px) {
+    .category-card .card-body {
+        padding: 1rem 0.75rem;
+    }
+    
+    .category-icon i {
+        font-size: 1.5rem !important;
+    }
+    
+    .category-card .card-title {
+        font-size: 0.85rem;
+    }
+    
+    .category-card .card-text {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .category-card .card-body {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .category-icon i {
+        font-size: 1.25rem !important;
+    }
+    
+    .category-card .card-title {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    
+    .category-card .card-text {
+        font-size: 0.7rem;
+        display: none; /* Hide descriptions on very small screens */
+    }
+}
+
+/* Animation for category cards */
+.category-card {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.category-card:nth-child(1) { animation-delay: 0.1s; }
+.category-card:nth-child(2) { animation-delay: 0.2s; }
+.category-card:nth-child(3) { animation-delay: 0.3s; }
+.category-card:nth-child(4) { animation-delay: 0.4s; }
+.category-card:nth-child(5) { animation-delay: 0.5s; }
+.category-card:nth-child(6) { animation-delay: 0.6s; }
+.category-card:nth-child(7) { animation-delay: 0.7s; }
+.category-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .btn,
+    .footer,
+    .modal {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 0 !important;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+}

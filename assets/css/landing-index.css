@@ -1,0 +1,348 @@
+/* ===== LANDING PAGE SPECIFIC STYLES ===== */
+body {
+    padding-top: 120px !important;
+    margin-top: 0 !important;
+}
+
+/* Force navbar to top */
+.navbar {
+    top: 0 !important;
+    z-index: 99999 !important;
+    position: fixed !important;
+    pointer-events: auto !important;
+}
+
+/* Force all navbar elements to be clickable */
+.navbar * {
+    pointer-events: auto !important;
+}
+
+.navbar .nav-link {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.navbar .navbar-brand {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.navbar .btn {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.navbar .dropdown-toggle {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* ===== HERO SLIDER ===== */
+.hero-slider {
+    position: relative !important;
+    height: calc(100vh - 120px) !important;
+    overflow: hidden !important;
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%) !important;
+    z-index: 1 !important;
+}
+
+.slider-container {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.slide {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+    transition: opacity 1s ease-in-out !important;
+}
+
+.slide.active {
+    opacity: 1 !important;
+}
+
+.slide-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+    overflow: hidden;
+}
+
+.slide-bg-2 {
+    background: linear-gradient(135deg, #1a2332 0%, #0f1419 50%, #1a2332 100%);
+}
+
+.slide-bg-3 {
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+}
+
+.slide-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    z-index: 10;
+}
+
+.slide-content .container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 28px;
+    line-height: 1.1;
+    position: relative;
+    z-index: 10;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    letter-spacing: -0.02em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-title .highlight {
+    color: #3b82f6;
+    font-weight: 700;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 10;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-cta {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: #ffffff;
+    border: none;
+    padding: 18px 48px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 100;
+    box-shadow: 
+        0 12px 30px rgba(59, 130, 246, 0.4),
+        0 6px 15px rgba(59, 130, 246, 0.2);
+    display: inline-block;
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.btn-cta:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 18px 40px rgba(59, 130, 246, 0.5),
+        0 8px 20px rgba(59, 130, 246, 0.3);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* ===== REMAINING SECTIONS ===== */
+.coin-ticker {
+    background: #1a1a1a;
+    padding: 40px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.ticker-header {
+    text-align: center;
+    margin-bottom: 30px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.ticker-header h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ticker-container {
+    width: 100% !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    position: relative !important;
+    padding: 0 20px !important;
+    mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent) !important;
+    -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent) !important;
+}
+
+.ticker-track {
+    display: flex !important;
+    animation: ticker 30s linear infinite !important;
+    gap: 2rem !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    animation-delay: 0s !important;
+    will-change: transform !important;
+}
+
+.coin-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 12px !important;
+    padding: 15px 20px !important;
+    margin-right: 20px !important;
+    min-width: 250px !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.coin-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 1);
+}
+
+.coin-flag {
+    font-size: 2rem;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 50%;
+    background-size: 30px 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Company Logos - Real Company Logos */
+.logo-aapl {
+    background-image: url('https://logo.clearbit.com/apple.com');
+    background-color: #f5f5f7;
+}
+
+.logo-msft {
+    background-image: url('https://logo.clearbit.com/microsoft.com');
+    background-color: #f5f5f5;
+}
+
+.logo-googl {
+    background-image: url('https://logo.clearbit.com/google.com');
+    background-color: #f5f5f5;
+}
+
+.logo-amzn {
+    background-image: url('https://logo.clearbit.com/amazon.com');
+    background-color: #f5f5f5;
+}
+
+.logo-tsla {
+    background-image: url('https://logo.clearbit.com/tesla.com');
+    background-color: #e31937;
+}
+
+.logo-meta {
+    background-image: url('https://logo.clearbit.com/meta.com');
+    background-color: #1877f2;
+}
+
+.logo-nflx {
+    background-image: url('https://logo.clearbit.com/netflix.com');
+    background-color: #e50914;
+}
+
+.logo-v {
+    background-image: url('https://logo.clearbit.com/visa.com');
+    background-color: #1418af;
+}
+
+.logo-ko {
+    background-image: url('https://logo.clearbit.com/coca-cola.com');
+    background-color: #f4010a;
+}
+
+.logo-jpm {
+    background-image: url('https://logo.clearbit.com/jpmorganchase.com');
+    background-color: #0048a0;
+}
+
+.coin-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.coin-symbol {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0d1b4c;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+.coin-name {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 400;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes simple-scroll {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Pause animation on hover */
+.coin-ticker:hover .ticker-track {
+    animation-play-state: paused !important;
+}

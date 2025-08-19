@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main.js Debug</title>
+</head>
+<body>
+    <h1>🔍 main.js Debug</h1>
+    <div id="debug-info"></div>
+
+    <script>
+        async function debugMainJs() {
+            const debug = document.getElementById('debug-info');
+            
+            try {
+                // Fetch main.js dosyasını al
+                const response = await fetch('assets/js/main.js');
+                const mainJsContent = await response.text();
+                
+                // Satır satır ayır
+                const lines = mainJsContent.split('\n');
+                
+                debug.innerHTML += '<h2>��� main.js İçeriği Analizi</h2>';
+                debug.innerHTML += '<p><strong>Toplam satır sayısı:</strong> ' + lines.length + '</p>';
+                
+                // 78. satırı kontrol et
+                if (lines.length >= 78) {
+                    debug.innerHTML += '<h3>🎯 78. Satır:</h3>';
+                    debug.innerHTML += '<pre style="background:#f8f9fa;padding:10px;border-radius:5px;">';
+                    debug.innerHTML += 'Satır 76: ' + (lines[75] || '') + '\n';
+                    debug.innerHTML += 'Satır 77: ' + (lines[76] || '') + '\n';
+                    debug.innerHTML += 'Satır 78: ' + (lines[77] || '') + '\n';
+                    debug.innerHTML += 'Satır 79: ' + (lines[78] || '') + '\n';
+                    debug.innerHTML += 'Satır 80: ' + (lines[79] || '') + '\n';
+                    debug.innerHTML += '</pre>';
+                }
+                
+                // Dashboard ara
+                debug.innerHTML += '<h3>🔍 "dashboard" Arama Sonuçları:</h3>';
+                let dashboardFound = false;
+                
+                lines.forEach((line, index) => {
+                    if (line.toLowerCase().includes('dashboard')) {
+                        debug.innerHTML += '<p><strong>Satır ' + (index + 1) + ':</strong> ' + line + '</p>';
+                        dashboardFound = true;
+                    }
+                });
+                
+                if (!dashboardFound) {
+                    debug.innerHTML += '<p style="color:green;">✅ main.js dosyasında "dashboard" referansı bulunamadı</p>';
+                }
+                
+                // Cache kontrol et
+                debug.innerHTML += '<h3>🗄️ Cache Kontrol:</h3>';
+                debug.innerHTML += '<p><strong>Response Headers:</strong></p>';
+                debug.innerHTML += '<ul>';
+                for (let [key, value] of response.headers) {
+                    debug.innerHTML += '<li><strong>' + key + ':</strong> ' + value + '</li>';
+                }
+                debug.innerHTML += '</ul>';
+                
+                // Browser cache temizleme önerisi
+                debug.innerHTML += '<div style="background:#fff3cd;padding:15px;border-radius:8px;margin:20px 0;">';
+                debug.innerHTML += '<h4>💡 Cache Temizleme Önerileri:</h4>';
+                debug.innerHTML += '<ol>';
+                debug.innerHTML += '<li><strong>Hard Refresh:</strong> Ctrl+F5 veya Ctrl+Shift+R</li>';
+                debug.innerHTML += '<li><strong>DevTools:</strong> F12 → Network → "Disable cache" işaretle</li>';
+                debug.innerHTML += '<li><strong>Incognito:</strong> Yeni gizli sekme aç</li>';
+                debug.innerHTML += '<li><strong>Cache Clear:</strong> Tarayıcı ayarlarından cache temizle</li>';
+                debug.innerHTML += '</ol>';
+                debug.innerHTML += '</div>';
+                
+            } catch (error) {
+                debug.innerHTML += '<div style="color:red;padding:15px;background:#ffe6e6;border-radius:8px;">';
+                debug.innerHTML += '<h3>❌ Hata:</h3>';
+                debug.innerHTML += '<p>' + error.message + '</p>';
+                debug.innerHTML += '</div>';
+            }
+        }
+        
+        // Sayfa yüklendiğinde çalıştır
+        debugMainJs();
+        
+        // Console error'ları yakala
+        window.addEventListener('error', function(e) {
+            const debug = document.getElementById('debug-info');
+            
+            if (e.filename && e.filename.includes('main.js')) {
+                debug.innerHTML += '<div style="color:red;padding:15px;background:#ffe6e6;border-radius:8px;margin:20px 0;">';
+                debug.innerHTML += '<h3>🚨 JavaScript Hatası Yakalandı:</h3>';
+                debug.innerHTML += '<p><strong>Dosya:</strong> ' + e.filename + '</p>';
+                debug.innerHTML += '<p><strong>Satır:</strong> ' + e.lineno + '</p>';
+                debug.innerHTML += '<p><strong>Kolon:</strong> ' + e.colno + '</p>';
+                debug.innerHTML += '<p><strong>Hata:</strong> ' + e.message + '</p>';
+                debug.innerHTML += '<p><strong>Stack:</strong></p>';
+                debug.innerHTML += '<pre>' + (e.error ? e.error.stack : 'Stack trace yok') + '</pre>';
+                debug.innerHTML += '</div>';
+            }
+        });
+    </script>
+</body>
+</html>

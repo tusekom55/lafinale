@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tam Cache Temizleyici</title>
+</head>
+<body>
+    <h1>🧹 Tam Cache Temizleyici</h1>
+    <div id="status"></div>
+    <button onclick="clearEverything()" class="clear-btn">🗑️ Tümünü Temizle</button>
+
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .clear-btn { background: #dc3545; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; margin: 20px 0; }
+        .clear-btn:hover { background: #c82333; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+
+    <script>
+        function log(message, type = 'info') {
+            const status = document.getElementById('status');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            status.appendChild(div);
+        }
+
+        async function clearEverything() {
+            log('🚀 Tam temizlik başlatılıyor...', 'info');
+            
+            // 1. Local Storage temizle
+            try {
+                localStorage.clear();
+                log('✅ LocalStorage temizlendi', 'success');
+            } catch (e) {
+                log('❌ LocalStorage temizlenemedi: ' + e.message, 'error');
+            }
+            
+            // 2. Session Storage temizle
+            try {
+                sessionStorage.clear();
+                log('✅ SessionStorage temizlendi', 'success');
+            } catch (e) {
+                log('❌ SessionStorage temizlenemedi: ' + e.message, 'error');
+            }
+            
+            // 3. Service Worker temizle
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        log('✅ Service Worker kaldırıldı: ' + registration.scope, 'success');
+                    }
+                    if (registrations.length === 0) {
+                        log('ℹ️ Service Worker bulunamadı', 'info');
+                    }
+                } catch (e) {
+                    log('❌ Service Worker temizlenemedi: ' + e.message, 'error');
+                }
+            }
+            
+            // 4. Cache API temizle
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    for (let cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                        log('✅ Cache temizlendi: ' + cacheName, 'success');
+                    }
+                    if (cacheNames.length === 0) {
+                        log('ℹ️ Cache bulunamadı', 'info');
+                    }
+                } catch (e) {
+                    log('❌ Cache temizlenemedi: ' + e.message, 'error');
+                }
+            }
+            
+            // 5. Cookies temizle (sadece bu domain için)
+            try {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const eqPos = cookie.indexOf('=');
+                    const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+                    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+                }
+                log('✅ Cookies temizlendi', 'success');
+            } catch (e) {
+                log('❌ Cookies temizlenemedi: ' + e.message, 'error');
+            }
+            
+            // 6. JavaScript cache'ini force reload et
+            log('🔄 JavaScript dosyaları yeniden yükleniyor...', 'info');
+            
+            const scripts = [
+                'assets/js/main.js',
+                'assets/js/landing.js', 
+                'assets/js/landing-new.js',
+                'script-landing.js'
+            ];
+            
+            for (let script of scripts) {
+                try {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(script + '?v=' + timestamp, { 
+                        cache: 'no-cache',
+                        headers: {
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        }
+                    });
+                    if (response.ok) {
+                        log('✅ ' + script + ' yeniden yüklendi', 'success');
+                    } else {
+                        log('⚠️ ' + script + ' yüklenemedi (404)', 'info');
+                    }
+                } catch (e) {
+                    log('⚠️ ' + script + ' kontrol edilemedi', 'info');
+                }
+            }
+            
+            // 7. CSS cache'ini force reload et
+            log('🎨 CSS dosyaları yeniden yükleniyor...', 'info');
+            
+            const styles = [
+                'assets/css/style.css',
+                'assets/css/landing.css',
+                'assets/css/landing-new.css',
+                'styles-landing.css'
+            ];
+            
+            for (let style of styles) {
+                try {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(style + '?v=' + timestamp, { 
+                        cache: 'no-cache',
+                        headers: {
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        }
+                    });
+                    if (response.ok) {
+                        log('✅ ' + style + ' yeniden yüklendi', 'success');
+                    } else {
+                        log('⚠️ ' + style + ' yüklenemedi (404)', 'info');
+                    }
+                } catch (e) {
+                    log('⚠️ ' + style + ' kontrol edilemedi', 'info');
+                }
+            }
+            
+            // 8. Performance cache temizle
+            if (window.performance && window.performance.clearResourceTimings) {
+                window.performance.clearResourceTimings();
+                log('✅ Performance cache temizlendi', 'success');
+            }
+            
+            // 9. Meta refresh ekle
+            const meta = document.createElement('meta');
+            meta.httpEquiv = 'Cache-Control';
+            meta.content = 'no-cache, no-store, must-revalidate';
+            document.head.appendChild(meta);
+            
+            const meta2 = document.createElement('meta');
+            meta2.httpEquiv = 'Pragma';
+            meta2.content = 'no-cache';
+            document.head.appendChild(meta2);
+            
+            const meta3 = document.createElement('meta');
+            meta3.httpEquiv = 'Expires';
+            meta3.content = '0';
+            document.head.appendChild(meta3);
+            
+            log('✅ Meta cache headers eklendi', 'success');
+            
+            log('🎉 Temizlik tamamlandı! Şimdi sayfayı yenileyin.', 'success');
+            
+            // 10. Auto reload öner
+            setTimeout(() => {
+                if (confirm('Tüm cache temizlendi! Sayfayı yenilemek istiyor musunuz?')) {
+                    window.location.reload(true);
+                }
+            }, 2000);
+        }
+        
+        // Sayfa yüklendiğinde otomatik kontrol
+        window.addEventListener('load', function() {
+            log('💡 Bu tool tüm cache\'i temizler ve dashboard hatalarını giderir.', 'info');
+            log('⚠️ Tüm localStorage, sessionStorage, cookies temizlenecek.', 'info');
+            log('🔄 JavaScript ve CSS dosyaları force reload edilecek.', 'info');
+        });
+    </script>
+</body>
+</html>

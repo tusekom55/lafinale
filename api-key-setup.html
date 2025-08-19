@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twelve Data API Key Alma Rehberi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #007bff;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #ffc107;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #28a745;
+            margin: 15px 0;
+        }
+        .code {
+            background: #f1f3f4;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔑 Twelve Data API Key Alma Rehberi</h1>
+    
+    <div class="success">
+        <h3>✅ Neden Twelve Data?</h3>
+        <ul>
+            <li><strong>Ücretsiz Plan:</strong> Günde 800 request</li>
+            <li><strong>Kapsamlı Veri:</strong> Hisse senetleri, forex, emtialar, indices</li>
+            <li><strong>Güvenilir:</strong> Dünya çapında kullanılan profesyonel API</li>
+            <li><strong>Kolay Entegrasyon:</strong> JSON formatında veri</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>📋 Adım 1: Twelve Data Hesabı Oluşturun</h2>
+        <ol>
+            <li><a href="https://twelvedata.com/" target="_blank" class="btn">Twelve Data'ya Git</a></li>
+            <li><strong>"Get Free API Key"</strong> butonuna tıklayın</li>
+            <li><strong>"Sign Up"</strong> ile hesap oluşturun</li>
+            <li>Email adresinizi onaylayın</li>
+        </ol>
+        
+        <div class="warning">
+            <strong>⚠️ Önemli:</strong> Geçerli bir email adresi kullanın, onay maili gelecek.
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>🔐 Adım 2: API Key'i Alın</h2>
+        <ol>
+            <li>Hesabınıza giriş yapın</li>
+            <li><strong>"Dashboard"</strong> sayfasına gidin</li>
+            <li>Sol menüde <strong>"API Keys"</strong> bölümünü bulun</li>
+            <li><strong>"Create New API Key"</strong> tıklayın</li>
+            <li>Key'inizi kopyalayın (Örnek: a1b2c3d4e5f6...)</li>
+        </ol>
+        
+        <div class="code">
+            API Key Örneği: a1b2c3d4e5f67890abcdef1234567890
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>⚙️ Adım 3: GlobalBorsa'ya API Key Ekleyin</h2>
+        <ol>
+            <li><strong>config/api_keys.php</strong> dosyasını açın</li>
+            <li>Bu satırı bulun:</li>
+        </ol>
+        
+        <div class="code">
+define('TWELVE_DATA_API_KEY', 'demo');
+        </div>
+        
+        <ol start="3">
+            <li><strong>'demo'</strong> yerine gerçek API key'inizi yazın:</li>
+        </ol>
+        
+        <div class="code">
+define('TWELVE_DATA_API_KEY', 'a1b2c3d4e5f67890abcdef1234567890');
+        </div>
+        
+        <ol start="4">
+            <li>Dosyayı kaydedin</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>🧪 Adım 4: Test Edin</h2>
+        <ol>
+            <li><a href="api-connection-test.php" target="_blank" class="btn">API Test Sayfasını</a> açın</li>
+            <li><strong>"Live Mode"</strong> görmelisiniz</li>
+            <li>AAPL hisse verisi başarıyla gelmeli</li>
+            <li>Tüm kategoriler veri çekmeli</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>📊 Adım 5: Verileri Güncelleyin</h2>
+        <p>API key çalıştıktan sonra:</p>
+        <ol>
+            <li><a href="index.php" target="_blank" class="btn">Ana Piyasalar Sayfası</a> - Otomatik veri güncellemesi</li>
+            <li><a href="landing-new.php" target="_blank" class="btn">Landing Sayfası</a> - Ticker'da gerçek fiyatlar</li>
+        </ol>
+    </div>
+
+    <div class="warning">
+        <h3>⚠️ Önemli Limitler</h3>
+        <ul>
+            <li><strong>Ücretsiz Plan:</strong> 800 request/gün</li>
+            <li><strong>Dakika başına:</strong> 8 request limit</li>
+            <li><strong>Toplam kategoriler:</strong> 8 kategori x ~20 sembol = 160 request</li>
+            <li><strong>Günde:</strong> 5 kez tam güncelleme yapabilirsiniz</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <h3>🎯 API Key Başarıyla Kurulduktan Sonra:</h3>
+        <ul>
+            <li>✅ Gerçek hisse fiyatları gelecek</li>
+            <li>✅ Forex kurları güncel olacak</li>
+            <li>✅ Emtia fiyatları canlı olacak</li>
+            <li>✅ Index değerleri gerçek zamanlı</li>
+            <li>✅ Otomatik 10 dakikada bir güncelleme</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>🚨 Sorun Giderme</h2>
+        
+        <h3>❌ "API Key geçersiz" hatası:</h3>
+        <ul>
+            <li>Key'i doğru kopyaladığınızdan emin olun</li>
+            <li>Başında/sonunda boşluk olmasın</li>
+            <li>Tırnak işaretleri içinde olsun</li>
+        </ul>
+
+        <h3>❌ "429 Rate limit" hatası:</h3>
+        <ul>
+            <li>Günlük limit dolmuş, yarın tekrar deneyin</li>
+            <li>Çok sık güncelleme yapmayın</li>
+        </ul>
+
+        <h3>❌ "Veri gelmiyor" sorunu:</h3>
+        <ul>
+            <li>API test sayfasını kontrol edin</li>
+            <li>Internet bağlantınızı kontrol edin</li>
+            <li>Hosting provider API isteklerini engelliyor olabilir</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0;">
+        <a href="https://twelvedata.com/" target="_blank" class="btn">🔗 Twelve Data'ya Git</a>
+        <a href="api-connection-test.php" class="btn">🧪 API Testi Yap</a>
+        <a href="index.php" class="btn">📊 Piyasaları Gör</a>
+    </div>
+
+    <div style="background: #e9ecef; padding: 20px; border-radius: 10px; margin: 30px 0; text-align: center;">
+        <p><strong>💡 İpucu:</strong> API key aldıktan sonra yaklaşık 5-10 dakika bekleyin, sistemin aktif olması için zaman gerekebilir.</p>
+    </div>
+
+</body>
+</html>

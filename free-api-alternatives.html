@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ücretsiz API Alternatifleri</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        .api-card { border: 2px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; transition: all 0.3s ease; }
+        .api-card:hover { border-color: #007bff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .recommended { border-color: #28a745; background: #f8fff9; }
+        .pro { color: #28a745; }
+        .con { color: #dc3545; }
+        .limit { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+        .btn:hover { background: #0056b3; color: white; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+    </style>
+</head>
+<body>
+    <h1>💰 Ücretsiz Financial API Alternatifleri</h1>
+    
+    <div class="api-card recommended">
+        <h2>🥇 Alpha Vantage (ÖNERİLEN)</h2>
+        <div class="limit">
+            <strong>Ücretsiz Plan:</strong> 25 request/gün | Kayıt: Ücretsiz | Kalite: Yüksek
+        </div>
+        
+        <h3>✅ Avantajlar:</h3>
+        <ul class="pro">
+            <li>✅ Resmi ve güvenilir API</li>
+            <li>✅ Profesyonel veri kalitesi</li>
+            <li>✅ Hisse, forex, kripto destekli</li>
+            <li>✅ Zaten config dosyasında mevcut</li>
+            <li>✅ Rate limit düşük ama istikrarlı</li>
+        </ul>
+
+        <h3>❌ Dezavantajlar:</h3>
+        <ul class="con">
+            <li>❌ Günde sadece 25 request</li>
+            <li>❌ Emtia desteği sınırlı</li>
+        </ul>
+
+        <p><strong>Strateji:</strong> 25 requesti 8 kategoriye böl = günde 3'er kategori güncelle</p>
+        <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="btn btn-success">Alpha Vantage Key Al</a>
+    </div>
+
+    <div class="api-card">
+        <h2>🚀 Finnhub.io</h2>
+        <div class="limit">
+            <strong>Ücretsiz Plan:</strong> 60 call/minute | Kayıt: Ücretsiz | Kalite: Yüksek
+        </div>
+        
+        <h3>✅ Avantajlar:</h3>
+        <ul class="pro">
+            <li>✅ Yüksek rate limit (dakikada 60)</li>
+            <li>✅ Hisse senetleri çok kapsamlı</li>
+            <li>✅ Real-time veriler</li>
+            <li>✅ Professional grade</li>
+        </ul>
+
+        <h3>❌ Dezavantajlar:</h3>
+        <ul class="con">
+            <li>❌ Forex/kripto/emtia sınırlı</li>
+            <li>❌ Yeni entegrasyon gerekli</li>
+        </ul>
+
+        <a href="https://finnhub.io/" target="_blank" class="btn">Finnhub'a Git</a>
+    </div>
+
+    <div class="api-card">
+        <h2>📊 IEX Cloud</h2>
+        <div class="limit">
+            <strong>Ücretsiz Plan:</strong> 100,000 request/ay | Kayıt: Ücretsiz | Kalite: Yüksek
+        </div>
+        
+        <h3>✅ Avantajlar:</h3>
+        <ul class="pro">
+            <li>✅ Çok yüksek limit</li>
+            <li>✅ ABD piyasaları için mükemmel</li>
+            <li>✅ Güvenilir altyapı</li>
+        </ul>
+
+        <h3>❌ Dezavantajlar:</h3>
+        <ul class="con">
+            <li>❌ Sadece ABD hisseleri</li>
+            <li>❌ Forex/kripto/emtia yok</li>
+        </ul>
+
+        <a href="https://iexcloud.io/" target="_blank" class="btn">IEX Cloud'a Git</a>
+    </div>
+
+    <div class="api-card">
+        <h2>🌐 Yahoo Finance (Unofficial)</h2>
+        <div class="limit">
+            <strong>Ücretsiz Plan:</strong> Unlimited | Kayıt: Gereksiz | Kalite: Orta
+        </div>
+        
+        <h3>✅ Avantajlar:</h3>
+        <ul class="pro">
+            <li>✅ Tamamen ücretsiz</li>
+            <li>✅ Limit yok</li>
+            <li>✅ Tüm kategoriler mevcut</li>
+            <li>✅ Hızlı entegrasyon</li>
+        </ul>
+
+        <h3>❌ Dezavantajlar:</h3>
+        <ul class="con">
+            <li>❌ Unofficial API (Yahoo kapatabilir)</li>
+            <li>❌ Rate limiting beklenmedik olabilir</li>
+            <li>❌ Veri formatı değişebilir</li>
+        </ul>
+
+        <p><strong>Not:</strong> Kısa vadeli test için ideal, production için riskli</p>
+        <a href="#" onclick="implementYahooFinance()" class="btn">Yahoo Finance Entegre Et</a>
+    </div>
+
+    <div class="api-card">
+        <h2>🎯 Hibrit Strateji (ÖNERİLEN)</h2>
+        <div class="limit">
+            <strong>Kombinasyon:</strong> Alpha Vantage + Demo Data | Maliyet: Ücretsiz
+        </div>
+        
+        <h3>📋 Nasıl Çalışır:</h3>
+        <ol>
+            <li><strong>Alpha Vantage:</strong> Günde 25 request ile önemli sembolleri güncelle</li>
+            <li><strong>Demo Data:</strong> Diğer semboller için gerçekçi demo veri kullan</li>
+            <li><strong>Rotasyon:</strong> Her gün farklı kategorileri güncelle</li>
+            <li><strong>Cache:</strong> Güncellenmiş verileri 24 saat sakla</li>
+        </ol>
+
+        <h3>✅ Avantajlar:</h3>
+        <ul class="pro">
+            <li>✅ Tamamen ücretsiz</li>
+            <li>✅ Tüm kategoriler dolu görünür</li>
+            <li>✅ Önemli veriler gerçek</li>
+            <li>✅ Site test edilebilir</li>
+        </ul>
+
+        <a href="#" onclick="implementHybrid()" class="btn btn-success">Hibrit Sistemi Kur</a>
+    </div>
+
+    <h2>🎯 Hangi Seçeneği Öneriyorum?</h2>
+    
+    <div style="background: #e8f4fd; padding: 20px; border-radius: 10px; border-left: 5px solid #007bff;">
+        <h3>💡 Önerim: Hibrit Strateji</h3>
+        <p><strong>Neden en iyi:</strong></p>
+        <ul>
+            <li>✅ <strong>Ücretsiz</strong> - Hiç maliyet yok</li>
+            <li>✅ <strong>Gerçek veri</strong> - Alpha Vantage ile önemli semboller</li>
+            <li>✅ <strong>Tam görünüm</strong> - Tüm kategoriler dolu</li>
+            <li>✅ <strong>Test edilebilir</strong> - Site development devam edebilir</li>
+            <li>✅ <strong>Upgrade path</strong> - İleride kolayca geliştirilebilir</li>
+        </ul>
+        
+        <p><strong>Günlük strateji:</strong></p>
+        <ul>
+            <li>Pazartesi: ABD hisseleri + Forex major (Alpha Vantage)</li>
+            <li>Salı: Avrupa hisseleri + Emtialar (Alpha Vantage)</li>
+            <li>Çarşamba: Index'ler + diğerleri (Alpha Vantage)</li>
+            <li>Geri kalan kategoriler: Demo data (gerçekçi)</li>
+        </ul>
+    </div>
+
+    <script>
+        function implementYahooFinance() {
+            if (confirm('Yahoo Finance entegrasyonu yapmak istiyor musunuz? (Unofficial API)')) {
+                window.location.href = 'admin-data-manager.php';
+            }
+        }
+
+        function implementHybrid() {
+            if (confirm('Hibrit sistemi kurmak istiyor musunuz? (Alpha Vantage + Demo Data)')) {
+                window.location.href = 'setup-hybrid-system.php';
+            }
+        }
+    </script>
+
+    <div style="text-align: center; margin: 40px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+        <h3>🚀 Hızlı Başlangıç</h3>
+        <p>En hızlı çözüm için hibrit sistemi öneriyorum.</p>
+        <a href="admin-data-manager.php" class="btn btn-success">Admin Panel'e Git</a>
+        <span style="margin: 0 10px;">veya</span>
+        <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="btn">Alpha Vantage Key Al</a>
+    </div>
+
+</body>
+</html>
