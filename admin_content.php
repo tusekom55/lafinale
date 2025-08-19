@@ -97,6 +97,90 @@ function getHomepageContent($db, $language = 'tr') {
 }
 
 $content = getHomepageContent($db, $current_language);
+
+// Default content for fallback
+$default_content = [
+    'tr' => [
+        'hero' => [
+            'title' => 'Türkiye\'nin En Güvenilir <br>Yatırım Platformu',
+            'subtitle' => 'Düşük komisyonlar, güvenli altyapı ve profesyonel destek ile yatırımlarınızı büyütün.',
+            'primary_button_text' => 'Hemen Başla',
+            'primary_button_link' => 'register.php',
+            'secondary_button_text' => 'Piyasaları İncele',
+            'secondary_button_link' => 'markets.php'
+        ],
+        'features' => [
+            'title' => 'Neden GlobalBorsa?',
+            'subtitle' => 'Türkiye\'nin en güvenilir yatırım platformu olarak size sunduğumuz avantajlar',
+            'feature1_title' => 'Güvenli Altyapı',
+            'feature1_text' => 'Çoklu imza, soğuk cüzdan depolama ve 2FA ile paranız %100 güvende. Sigortalı varlık koruması.',
+            'feature2_title' => 'Hızlı İşlemler',
+            'feature2_text' => 'Milisaniye hızında emir eşleştirme motoru ile anlık alım-satım yapın. 0.1 saniyede işlem tamamlama.',
+            'feature3_title' => 'Düşük Komisyonlar',
+            'feature3_text' => 'Türkiye\'nin en düşük komisyon oranları ile daha fazla kar edin. Şeffaf ve adil fiyatlandırma.'
+        ],
+        'markets' => [
+            'title' => 'Canlı Piyasa Verileri'
+        ],
+        'education' => [
+            'title' => 'Trading Akademisi',
+            'subtitle' => 'Profesyonel trader olmak için ihtiyacınız olan tüm bilgileri uzman analistlerimizden öğrenin'
+        ],
+        'cta' => [
+            'badge' => '🚀 Sınırlı Süreli Fırsat',
+            'title' => 'Yatırım Yolculuğunuza Hemen Başlayın!',
+            'text' => 'Profesyonel araçlar, uzman analizler ve güvenli altyapı ile yatırımlarınızı bir sonraki seviyeye taşıyın. İlk yatırımınızda %100 bonus kazanma fırsatını kaçırmayın!',
+            'primary_button_text' => 'Ücretsiz Hesap Aç',
+            'primary_button_link' => 'register.php',
+            'secondary_button_text' => 'Piyasaları Keşfet',
+            'secondary_button_link' => 'markets.php'
+        ]
+    ],
+    'en' => [
+        'hero' => [
+            'title' => 'Turkey\'s Most Trusted <br>Investment Platform',
+            'subtitle' => 'Grow your investments with low commissions, secure infrastructure and professional support.',
+            'primary_button_text' => 'Get Started',
+            'primary_button_link' => 'register.php',
+            'secondary_button_text' => 'Explore Markets',
+            'secondary_button_link' => 'markets.php'
+        ],
+        'features' => [
+            'title' => 'Why GlobalBorsa?',
+            'subtitle' => 'Advantages we offer as Turkey\'s most trusted investment platform',
+            'feature1_title' => 'Secure Infrastructure',
+            'feature1_text' => 'Your money is 100% safe with multi-signature, cold wallet storage and 2FA. Insured asset protection.',
+            'feature2_title' => 'Fast Transactions',
+            'feature2_text' => 'Trade instantly with millisecond-speed order matching engine. Complete transactions in 0.1 seconds.',
+            'feature3_title' => 'Low Commissions',
+            'feature3_text' => 'Earn more with Turkey\'s lowest commission rates. Transparent and fair pricing.'
+        ],
+        'markets' => [
+            'title' => 'Live Market Data'
+        ],
+        'education' => [
+            'title' => 'Trading Academy',
+            'subtitle' => 'Learn everything you need to become a professional trader from our expert analysts'
+        ],
+        'cta' => [
+            'badge' => '🚀 Limited Time Offer',
+            'title' => 'Start Your Investment Journey Now!',
+            'text' => 'Take your investments to the next level with professional tools, expert analysis and secure infrastructure. Don\'t miss the opportunity to earn 100% bonus on your first investment!',
+            'primary_button_text' => 'Open Free Account',
+            'primary_button_link' => 'register.php',
+            'secondary_button_text' => 'Explore Markets',
+            'secondary_button_link' => 'markets.php'
+        ]
+    ]
+];
+
+// Function to get content with fallback
+function getContentValue($content, $section, $key, $language, $default_content) {
+    if (isset($content[$section][$key]) && !empty($content[$section][$key])) {
+        return $content[$section][$key];
+    }
+    return $default_content[$language][$section][$key] ?? '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -115,6 +199,7 @@ $content = getHomepageContent($db, $current_language);
         .quick-nav { position: fixed; top: 50%; right: 20px; transform: translateY(-50%); z-index: 1000; }
         .quick-nav .btn { margin-bottom: 5px; display: block; width: 50px; height: 50px; border-radius: 50%; }
         @media (max-width: 768px) { .quick-nav { display: none; } }
+        .current-content { background: #f0f8f0; border-left: 4px solid #28a745; padding: 8px 12px; margin-bottom: 8px; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -124,7 +209,7 @@ $content = getHomepageContent($db, $current_language);
             <div class="row align-items-center">
                 <div class="col">
                     <h1><i class="fas fa-edit"></i> İçerik Yönetimi</h1>
-                    <small>Ana sayfa içeriklerini düzenleyin</small>
+                    <small>Ana sayfa içeriklerini düzenleyin - Mevcut içerikler otomatik yüklendi</small>
                 </div>
                 <div class="col-auto">
                     <a href="index.php" target="_blank" class="btn btn-light btn-sm me-2">
@@ -182,30 +267,30 @@ $content = getHomepageContent($db, $current_language);
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Ana Başlık</label>
-                            <textarea class="form-control" name="hero__title" rows="2" placeholder="Ana sayfa başlığı"><?php echo htmlspecialchars($content['hero']['title'] ?? ''); ?></textarea>
+                            <textarea class="form-control" name="hero__title" rows="2" placeholder="Ana sayfa başlığı"><?php echo htmlspecialchars(getContentValue($content, 'hero', 'title', $current_language, $default_content)); ?></textarea>
                             <small class="text-muted">HTML kullanabilirsiniz (örn: &lt;br&gt;)</small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Alt Başlık</label>
-                            <textarea class="form-control" name="hero__subtitle" rows="2" placeholder="Ana sayfa açıklaması"><?php echo htmlspecialchars($content['hero']['subtitle'] ?? ''); ?></textarea>
+                            <textarea class="form-control" name="hero__subtitle" rows="2" placeholder="Ana sayfa açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'hero', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Metni</label>
-                            <input type="text" class="form-control" name="hero__primary_button_text" value="<?php echo htmlspecialchars($content['hero']['primary_button_text'] ?? ''); ?>" placeholder="Hemen Başla">
+                            <input type="text" class="form-control" name="hero__primary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Hemen Başla">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Linki</label>
-                            <input type="text" class="form-control" name="hero__primary_button_link" value="<?php echo htmlspecialchars($content['hero']['primary_button_link'] ?? ''); ?>" placeholder="register.php">
+                            <input type="text" class="form-control" name="hero__primary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Metni</label>
-                            <input type="text" class="form-control" name="hero__secondary_button_text" value="<?php echo htmlspecialchars($content['hero']['secondary_button_text'] ?? ''); ?>" placeholder="Piyasaları İncele">
+                            <input type="text" class="form-control" name="hero__secondary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları İncele">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Linki</label>
-                            <input type="text" class="form-control" name="hero__secondary_button_link" value="<?php echo htmlspecialchars($content['hero']['secondary_button_link'] ?? ''); ?>" placeholder="markets.php">
+                            <input type="text" class="form-control" name="hero__secondary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'hero', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
                         </div>
                     </div>
                 </div>
@@ -220,11 +305,11 @@ $content = getHomepageContent($db, $current_language);
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Başlığı</label>
-                            <input type="text" class="form-control" name="features__title" value="<?php echo htmlspecialchars($content['features']['title'] ?? ''); ?>" placeholder="Neden GlobalBorsa?">
+                            <input type="text" class="form-control" name="features__title" value="<?php echo htmlspecialchars(getContentValue($content, 'features', 'title', $current_language, $default_content)); ?>" placeholder="Neden GlobalBorsa?">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Açıklaması</label>
-                            <textarea class="form-control" name="features__subtitle" rows="2" placeholder="Özellikler açıklaması"><?php echo htmlspecialchars($content['features']['subtitle'] ?? ''); ?></textarea>
+                            <textarea class="form-control" name="features__subtitle" rows="2" placeholder="Özellikler açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'features', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                     
@@ -235,11 +320,11 @@ $content = getHomepageContent($db, $current_language);
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label">Başlık</label>
-                                <input type="text" class="form-control" name="features__feature<?php echo $i; ?>_title" value="<?php echo htmlspecialchars($content['features']['feature'.$i.'_title'] ?? ''); ?>">
+                                <input type="text" class="form-control" name="features__feature<?php echo $i; ?>_title" value="<?php echo htmlspecialchars(getContentValue($content, 'features', 'feature'.$i.'_title', $current_language, $default_content)); ?>">
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label">Açıklama</label>
-                                <textarea class="form-control" name="features__feature<?php echo $i; ?>_text" rows="2"><?php echo htmlspecialchars($content['features']['feature'.$i.'_text'] ?? ''); ?></textarea>
+                                <textarea class="form-control" name="features__feature<?php echo $i; ?>_text" rows="2"><?php echo htmlspecialchars(getContentValue($content, 'features', 'feature'.$i.'_text', $current_language, $default_content)); ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -254,7 +339,7 @@ $content = getHomepageContent($db, $current_language);
                 </div>
                 <div class="section-body">
                     <label class="form-label fw-bold">Bölüm Başlığı</label>
-                    <input type="text" class="form-control" name="markets__title" value="<?php echo htmlspecialchars($content['markets']['title'] ?? ''); ?>" placeholder="Canlı Piyasa Verileri">
+                    <input type="text" class="form-control" name="markets__title" value="<?php echo htmlspecialchars(getContentValue($content, 'markets', 'title', $current_language, $default_content)); ?>" placeholder="Canlı Piyasa Verileri">
                     <small class="text-muted">Piyasa verileri otomatik olarak API'den çekilir</small>
                 </div>
             </div>
@@ -268,11 +353,11 @@ $content = getHomepageContent($db, $current_language);
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Başlığı</label>
-                            <input type="text" class="form-control" name="education__title" value="<?php echo htmlspecialchars($content['education']['title'] ?? ''); ?>" placeholder="Trading Akademisi">
+                            <input type="text" class="form-control" name="education__title" value="<?php echo htmlspecialchars(getContentValue($content, 'education', 'title', $current_language, $default_content)); ?>" placeholder="Trading Akademisi">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Bölüm Açıklaması</label>
-                            <textarea class="form-control" name="education__subtitle" rows="2" placeholder="Eğitim açıklaması"><?php echo htmlspecialchars($content['education']['subtitle'] ?? ''); ?></textarea>
+                            <textarea class="form-control" name="education__subtitle" rows="2" placeholder="Eğitim açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'education', 'subtitle', $current_language, $default_content)); ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -287,33 +372,33 @@ $content = getHomepageContent($db, $current_language);
                     <div class="row">
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Badge Metni</label>
-                            <input type="text" class="form-control" name="cta__badge" value="<?php echo htmlspecialchars($content['cta']['badge'] ?? ''); ?>" placeholder="🚀 Sınırlı Süreli Fırsat">
+                            <input type="text" class="form-control" name="cta__badge" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'badge', $current_language, $default_content)); ?>" placeholder="🚀 Sınırlı Süreli Fırsat">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label fw-bold">Ana Başlık</label>
-                            <input type="text" class="form-control" name="cta__title" value="<?php echo htmlspecialchars($content['cta']['title'] ?? ''); ?>" placeholder="Yatırım Yolculuğunuza Hemen Başlayın!">
+                            <input type="text" class="form-control" name="cta__title" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'title', $current_language, $default_content)); ?>" placeholder="Yatırım Yolculuğunuza Hemen Başlayın!">
                         </div>
                     </div>
                     <div class="mt-3">
                         <label class="form-label fw-bold">Açıklama</label>
-                        <textarea class="form-control" name="cta__text" rows="3" placeholder="CTA açıklaması"><?php echo htmlspecialchars($content['cta']['text'] ?? ''); ?></textarea>
+                        <textarea class="form-control" name="cta__text" rows="3" placeholder="CTA açıklaması"><?php echo htmlspecialchars(getContentValue($content, 'cta', 'text', $current_language, $default_content)); ?></textarea>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Metni</label>
-                            <input type="text" class="form-control" name="cta__primary_button_text" value="<?php echo htmlspecialchars($content['cta']['primary_button_text'] ?? ''); ?>" placeholder="Ücretsiz Hesap Aç">
+                            <input type="text" class="form-control" name="cta__primary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'primary_button_text', $current_language, $default_content)); ?>" placeholder="Ücretsiz Hesap Aç">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">Ana Buton Linki</label>
-                            <input type="text" class="form-control" name="cta__primary_button_link" value="<?php echo htmlspecialchars($content['cta']['primary_button_link'] ?? ''); ?>" placeholder="register.php">
+                            <input type="text" class="form-control" name="cta__primary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'primary_button_link', $current_language, $default_content)); ?>" placeholder="register.php">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Metni</label>
-                            <input type="text" class="form-control" name="cta__secondary_button_text" value="<?php echo htmlspecialchars($content['cta']['secondary_button_text'] ?? ''); ?>" placeholder="Piyasaları Keşfet">
+                            <input type="text" class="form-control" name="cta__secondary_button_text" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'secondary_button_text', $current_language, $default_content)); ?>" placeholder="Piyasaları Keşfet">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-bold">İkinci Buton Linki</label>
-                            <input type="text" class="form-control" name="cta__secondary_button_link" value="<?php echo htmlspecialchars($content['cta']['secondary_button_link'] ?? ''); ?>" placeholder="markets.php">
+                            <input type="text" class="form-control" name="cta__secondary_button_link" value="<?php echo htmlspecialchars(getContentValue($content, 'cta', 'secondary_button_link', $current_language, $default_content)); ?>" placeholder="markets.php">
                         </div>
                     </div>
                 </div>
@@ -331,10 +416,11 @@ $content = getHomepageContent($db, $current_language);
         <div class="alert alert-info">
             <h6><i class="fas fa-info-circle"></i> Kullanım Bilgileri:</h6>
             <ul class="mb-0">
-                <li>Değişiklikler anında kaydedilir ve ana sayfada görünür</li>
-                <li>HTML etiketleri kullanabilirsiniz (&lt;br&gt;, &lt;strong&gt; gibi)</li>
-                <li>Önizleme butonu ile değişiklikleri canlı olarak görüntüleyebilirsiniz</li>
-                <li>İki dil desteği vardır: Türkçe ve İngilizce</li>
+                <li><strong>Mevcut veriler:</strong> Form alanları mevcut içeriklerle otomatik dolduruldu</li>
+                <li><strong>Kaydetme:</strong> Değişiklikler anında kaydedilir ve ana sayfada görünür</li>
+                <li><strong>HTML etiketleri:</strong> Başlık alanlarında kullanabilirsiniz (&lt;br&gt;, &lt;strong&gt; gibi)</li>
+                <li><strong>Önizleme:</strong> Üst menüdeki "Önizle" butonu ile değişiklikleri canlı görüntüleyebilirsiniz</li>
+                <li><strong>Dil desteği:</strong> Türkçe ve İngilizce ayrı ayrı yönetilebilir</li>
             </ul>
         </div>
     </div>
@@ -399,6 +485,16 @@ $content = getHomepageContent($db, $current_language);
                 btn.disabled = false;
             }, 2000);
         });
+
+        // Show success message on page load if form was submitted
+        <?php if(isset($success_message)): ?>
+        setTimeout(() => {
+            const alert = document.querySelector('.alert-success');
+            if(alert) {
+                alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+        <?php endif; ?>
     </script>
 </body>
 </html>
