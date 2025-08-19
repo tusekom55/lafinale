@@ -401,12 +401,6 @@ include 'includes/header.php';
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="bg-warning bg-opacity-10 border border-warning rounded p-2">
-                                                    <small class="text-warning">
-                                                        <i class="fas fa-exclamation-triangle me-2"></i>
-                                                        <strong>Önemli:</strong> Havale açıklama kısmına kullanıcı adınızı yazınız.
-                                                    </small>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
