@@ -70,7 +70,7 @@ function getContentOrFallback($content, $section, $key, $fallback_tr, $fallback_
         .hero-section {
             background: 
                 linear-gradient(135deg, rgba(10, 14, 26, 0.8) 0%, rgba(26, 31, 58, 0.8) 25%, rgba(13, 27, 76, 0.8) 50%, rgba(0, 123, 255, 0.8) 100%),
-                url('6256878.jpg') center/cover no-repeat;
+                url('s/6256878.jpg') center/cover no-repeat;
             color: #fff;
             padding: 120px 0 80px;
             margin-top: 70px;
@@ -788,7 +788,7 @@ function getContentOrFallback($content, $section, $key, $fallback_tr, $fallback_
         .cta-section {
             background: 
                 linear-gradient(135deg, rgba(10, 14, 26, 0.8) 0%, rgba(26, 31, 58, 0.8) 25%, rgba(13, 27, 76, 0.8) 50%, rgba(0, 123, 255, 0.8) 100%),
-                url('6256878.jpg') center/cover no-repeat;
+                url('s/6256878.jpg') center/cover no-repeat;
             color: #fff;
             padding: 120px 0;
             position: relative;

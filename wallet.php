@@ -4,7 +4,26 @@ require_once 'includes/functions.php';
 // Require login for wallet
 requireLogin();
 
-$page_title = t('wallet');
+// Dinamik site adı için page_title oluştur
+$dynamic_site_name_page = SITE_NAME; // Fallback
+try {
+    if (class_exists('Database')) {
+        $database_page = new Database();
+        $db_page = $database_page->getConnection();
+        $query_page = "SELECT setting_value FROM settings WHERE setting_key = 'site_name'";
+        $stmt_page = $db_page->prepare($query_page);
+        $stmt_page->execute();
+        $site_name_result_page = $stmt_page->fetch(PDO::FETCH_ASSOC);
+        
+        if ($site_name_result_page && !empty($site_name_result_page['setting_value'])) {
+            $dynamic_site_name_page = $site_name_result_page['setting_value'];
+        }
+    }
+} catch (Exception $e) {
+    // Hata durumunda varsayılan SITE_NAME kullan
+}
+
+$page_title = $dynamic_site_name_page . ' - ' . t('wallet');
 $error = '';
 $success = '';
 
