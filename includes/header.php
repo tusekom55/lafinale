@@ -13,7 +13,7 @@ if (!in_array($current_page, $public_pages)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($page_title) ? $page_title . ' - ' : ''; ?><?php echo SITE_NAME; ?></title>
+    <title><?php echo isset($page_title) ? $page_title . ' - ' : ''; ?><?php echo htmlspecialchars($dynamic_site_name); ?></title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -836,33 +836,27 @@ if (!in_array($current_page, $public_pages)) {
             
             <a class="navbar-brand" href="index.php">
                 <?php
-                // Logo gösterimi
-                $show_logo = false;
-                $logo_path = '';
+                // Dinamik site adı gösterimi
+                $dynamic_site_name = SITE_NAME; // Fallback
                 
                 try {
                     if (class_exists('Database')) {
                         $database = new Database();
                         $db = $database->getConnection();
-                        $query = "SELECT setting_value FROM settings WHERE setting_key = 'main_logo'";
+                        $query = "SELECT setting_value FROM settings WHERE setting_key = 'site_name'";
                         $stmt = $db->prepare($query);
                         $stmt->execute();
-                        $logo_result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $site_name_result = $stmt->fetch(PDO::FETCH_ASSOC);
                         
-                        if ($logo_result && !empty($logo_result['setting_value']) && file_exists($logo_result['setting_value'])) {
-                            $show_logo = true;
-                            $logo_path = $logo_result['setting_value'];
+                        if ($site_name_result && !empty($site_name_result['setting_value'])) {
+                            $dynamic_site_name = $site_name_result['setting_value'];
                         }
                     }
                 } catch (Exception $e) {
-                    // Hata durumunda varsayılan görünüm
+                    // Hata durumunda varsayılan SITE_NAME kullan
                 }
-                
-                if ($show_logo): ?>
-                    <img src="<?php echo htmlspecialchars($logo_path); ?>" alt="<?php echo SITE_NAME; ?>" style="height: 40px; max-width: 200px;" class="me-2">
-                <?php else: ?>
-                    <i class="fas fa-chart-line me-2"></i><?php echo SITE_NAME; ?>
-                <?php endif; ?>
+                ?>
+                <i class="fas fa-chart-line me-2"></i><?php echo htmlspecialchars($dynamic_site_name); ?>
             </a>
             
             <!-- Desktop Navigation -->
@@ -976,11 +970,7 @@ if (!in_array($current_page, $public_pages)) {
     <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="mobileMenuLabel">
-                <?php if ($show_logo): ?>
-                    <img src="<?php echo htmlspecialchars($logo_path); ?>" alt="<?php echo SITE_NAME; ?>" style="height: 32px; max-width: 150px;" class="me-2">
-                <?php else: ?>
-                    <i class="fas fa-chart-line me-2 text-primary"></i><?php echo SITE_NAME; ?>
-                <?php endif; ?>
+                <i class="fas fa-chart-line me-2 text-primary"></i><?php echo htmlspecialchars($dynamic_site_name); ?>
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
