@@ -4,9 +4,30 @@
     <!-- Footer -->
     <footer class="bg-light border-top py-4 mt-5">
         <div class="container">
+            <?php
+            // Dinamik site adı gösterimi için footer'da da aynı kodu kullan
+            $dynamic_site_name_footer = SITE_NAME; // Fallback
+            
+            try {
+                if (class_exists('Database')) {
+                    $database_footer = new Database();
+                    $db_footer = $database_footer->getConnection();
+                    $query_footer = "SELECT setting_value FROM settings WHERE setting_key = 'site_name'";
+                    $stmt_footer = $db_footer->prepare($query_footer);
+                    $stmt_footer->execute();
+                    $site_name_result_footer = $stmt_footer->fetch(PDO::FETCH_ASSOC);
+                    
+                    if ($site_name_result_footer && !empty($site_name_result_footer['setting_value'])) {
+                        $dynamic_site_name_footer = $site_name_result_footer['setting_value'];
+                    }
+                }
+            } catch (Exception $e) {
+                // Hata durumunda varsayılan SITE_NAME kullan
+            }
+            ?>
             <div class="row">
                 <div class="col-md-6">
-                    <h5><?php echo SITE_NAME; ?></h5>
+                    <h5><?php echo htmlspecialchars($dynamic_site_name_footer); ?></h5>
                     <p class="text-muted mb-0">
                         <?php echo getCurrentLang() == 'tr' ? 
                             'Güvenli ve hızlı kripto para ve forex işlemleri.' : 
@@ -45,7 +66,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="text-muted mb-0">
-                        &copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?>. 
+                        &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($dynamic_site_name_footer); ?>. 
                         <?php echo getCurrentLang() == 'tr' ? 'Tüm hakları saklıdır.' : 'All rights reserved.'; ?>
                     </p>
                 </div>
